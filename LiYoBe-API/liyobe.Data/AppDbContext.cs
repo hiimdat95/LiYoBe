@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace liyobe.Data
 {
@@ -37,13 +34,10 @@ namespace liyobe.Data
         //public DbSet<Footer> Footers { set; get; }
         //public DbSet<Page> Pages { set; get; }
 
-
         //public DbSet<Tag> Tags { set; get; }
 
         //public DbSet<Permission> Permissions { get; set; }
         //public DbSet<WholePrice> WholePrices { get; set; }
-
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

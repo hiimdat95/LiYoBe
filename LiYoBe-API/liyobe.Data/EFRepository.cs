@@ -6,85 +6,121 @@ using System.Text;
 using liyobe.ApplicationCore.SharedKernel;
 using System.Linq;
 using System.Linq.Expressions;
+using liyobe.ApplicationCore.Interfaces.ISpecification;
+using System.Threading.Tasks;
 
 namespace liyobe.Data
 {
-    public class EFRepository<T, K> : IRepository<T, K>, IDisposable where T : BaseEntity<K>
+    /// <summary>
+    /// "There's some repetition here - couldn't we have some the sync methods call the async?"
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class EFRepository<T> : IRepository<T>, IAsyncRepository<T> where T : BaseEntity<T>
     {
-        private readonly AppDbContext _context;
+        protected readonly AppDbContext _dbContext;
 
-        public EFRepository(AppDbContext context)
+        public EFRepository(AppDbContext dbContext)
         {
-            _context = context;
-        }
-        public void Add(T entity)
-        {
-            _context.Add(entity);
+            _dbContext = dbContext;
         }
 
-        public void Dispose()
+        public virtual T GetById(int id)
         {
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
+            return _dbContext.Set<T>().Find(id);
         }
 
-        public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includeProperties)
+        public T GetSingleBySpec(ISpecification<T> spec)
         {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items;
+            return List(spec).FirstOrDefault();
         }
 
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+
+        public virtual async Task<T> GetByIdAsync(int id)
         {
-            IQueryable<T> items = _context.Set<T>();
-            if (includeProperties != null)
-            {
-                foreach (var includeProperty in includeProperties)
-                {
-                    items = items.Include(includeProperty);
-                }
-            }
-            return items.Where(predicate);
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public T FindById(K id, params Expression<Func<T, object>>[] includeProperties)
+        public IEnumerable<T> ListAll()
         {
-            return FindAll(includeProperties).SingleOrDefault(x => x.Id.Equals(id));
+            return _dbContext.Set<T>().AsEnumerable();
         }
 
-        public T FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public async Task<List<T>> ListAllAsync()
         {
-            return FindAll(includeProperties).SingleOrDefault(predicate);
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public void Remove(T entity)
+        public IEnumerable<T> List(ISpecification<T> spec)
         {
-            _context.Set<T>().Remove(entity);
+            // fetch a Queryable that includes all expression-based includes
+            var queryableResultWithIncludes = spec.Includes
+                .Aggregate(_dbContext.Set<T>().AsQueryable(),
+                    (current, include) => current.Include(include));
+
+            // modify the IQueryable to include any string-based include statements
+            var secondaryResult = spec.IncludeStrings
+                .Aggregate(queryableResultWithIncludes,
+                    (current, include) => current.Include(include));
+
+            // return the result of the query using the specification's criteria expression
+            return secondaryResult
+                            .Where(spec.Criteria)
+                            .AsEnumerable();
+        }
+        public async Task<List<T>> ListAsync(ISpecification<T> spec)
+        {
+            // fetch a Queryable that includes all expression-based includes
+            var queryableResultWithIncludes = spec.Includes
+                .Aggregate(_dbContext.Set<T>().AsQueryable(),
+                    (current, include) => current.Include(include));
+
+            // modify the IQueryable to include any string-based include statements
+            var secondaryResult = spec.IncludeStrings
+                .Aggregate(queryableResultWithIncludes,
+                    (current, include) => current.Include(include));
+
+            // return the result of the query using the specification's criteria expression
+            return await secondaryResult
+                            .Where(spec.Criteria)
+                            .ToListAsync();
         }
 
-        public void Remove(K id)
+        public T Add(T entity)
         {
-            var entity = FindById(id);
-            Remove(entity);
+            _dbContext.Set<T>().Add(entity);
+            _dbContext.SaveChanges();
+
+            return entity;
         }
 
-        public void RemoveMultiple(List<T> entities)
+        public async Task<T> AddAsync(T entity)
         {
-            _context.Set<T>().RemoveRange(entities);
+            _dbContext.Set<T>().Add(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
         }
 
         public void Update(T entity)
         {
-            _context.Set<T>().Update(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+        }
+        public async Task UpdateAsync(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public void Delete(T entity)
+        {
+            _dbContext.Set<T>().Remove(entity);
+            _dbContext.SaveChanges();
+        }
+        public async Task DeleteAsync(T entity)
+        {
+            _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
