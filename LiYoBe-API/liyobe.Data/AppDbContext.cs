@@ -15,7 +15,7 @@ namespace liyobe.Data
         {
         }
 
-        public DbSet<Language> Languages { set; get; }
+        //public DbSet<Language> Languages { set; get; }
         public DbSet<SystemConfig> SystemConfigs { get; set; }
         public DbSet<Function> Functions { get; set; }
 
@@ -99,7 +99,7 @@ namespace liyobe.Data
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("AppDbConnection");
             builder.UseSqlServer(connectionString);
             return new AppDbContext(builder.Options);
         }
