@@ -1,17 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using liyobe.ApplicationCore.Entities;
+using liyobe.ApplicationCore.Interfaces.IRepository;
+using liyobe.ApplicationCore.Interfaces.IServices;
+using liyobe.ApplicationCore.Interfaces.IUnitOfWork;
+using liyobe.ApplicationCore.ViewModels.System;
+using liyobe.Data;
+using liyobe.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using liyobe.Data;
+using Newtonsoft.Json.Serialization;
+using System;
 
 namespace liyobe.WebApi
 {
@@ -30,6 +33,49 @@ namespace liyobe.WebApi
             services.AddDbContext<AppDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("AppDbConnection"),
                        b => b.MigrationsAssembly("liyobe.Data")));
+
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+            // Configure Identity
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
+            services.AddAutoMapper();
+            //var config = new AutoMapper.MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<Function, FunctionViewModel>().ReverseMap();
+            //});
+            //services.AddSingleton(config);
+
+            // Add application services.
+            services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+
+            services.AddSingleton(Mapper.Configuration);
+            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
+
+            services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
+            services.AddTransient(typeof(IAsyncRepository<,>), typeof(EFRepository<,>));
+            services.AddTransient<IFunctionService, FunctionService>();
+            services.AddTransient<DbInitializer>();
+            services.AddMvc().
+                AddJsonOptions(options =>
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -44,7 +90,7 @@ namespace liyobe.WebApi
             {
                 app.UseHsts();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace liyobe.ApplicationCore.Interfaces.IRepository
 {
-    public interface IAsyncRepository<T> where T : BaseEntity<T>
+    public interface IAsyncRepository<T, K> where T : class
     {
         Task<T> GetByIdAsync(int id);
         Task<List<T>> ListAllAsync();

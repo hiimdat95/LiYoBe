@@ -4,7 +4,11 @@ using System.Text;
 
 namespace liyobe.ApplicationCore.Interfaces.IUnitOfWork
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
+        /// <summary>
+        /// Call save change from db context
+        /// </summary>
+        void Commit();
     }
 }

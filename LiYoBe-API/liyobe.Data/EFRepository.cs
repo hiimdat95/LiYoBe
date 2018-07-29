@@ -15,7 +15,7 @@ namespace liyobe.Data
     /// "There's some repetition here - couldn't we have some the sync methods call the async?"
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class EFRepository<T> : IRepository<T>, IAsyncRepository<T> where T : BaseEntity<T>
+    public class EFRepository<T, K> : IAsyncRepository<T, K>, IDisposable where T : BaseEntity<K>
     {
         protected readonly AppDbContext _dbContext;
 
@@ -121,6 +121,13 @@ namespace liyobe.Data
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
+        }
+        public void Dispose()
+        {
+            if (_dbContext != null)
+            {
+                _dbContext.Dispose();
+            }
         }
     }
 }
