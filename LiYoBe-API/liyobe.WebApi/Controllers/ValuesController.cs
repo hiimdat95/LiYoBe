@@ -8,6 +8,7 @@ using liyobe.ApplicationCore.ViewModels.System;
 
 namespace liyobe.WebApi.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -19,10 +20,17 @@ namespace liyobe.WebApi.Controllers
         }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<FunctionViewModel>> Get()
+        public async  Task<IActionResult> Get()
         {
-            var data = _functionService.GetAll("");
-            return new OkObjectResult(data);
+            try
+            {
+                var data = _functionService.GetAll("");
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
 
         // GET api/values/5

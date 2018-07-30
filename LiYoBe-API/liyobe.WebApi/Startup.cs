@@ -3,17 +3,14 @@ using liyobe.ApplicationCore.Entities;
 using liyobe.ApplicationCore.Interfaces.IRepository;
 using liyobe.ApplicationCore.Interfaces.IServices;
 using liyobe.ApplicationCore.Interfaces.IUnitOfWork;
-using liyobe.ApplicationCore.ViewModels.System;
 using liyobe.Data;
 using liyobe.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Serialization;
 using System;
 
 namespace liyobe.WebApi
@@ -56,27 +53,20 @@ namespace liyobe.WebApi
             });
 
             services.AddAutoMapper();
-            //var config = new AutoMapper.MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<Function, FunctionViewModel>().ReverseMap();
-            //});
-            //services.AddSingleton(config);
 
             // Add application services.
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
-            services.AddSingleton(Mapper.Configuration);
+            //CreateMapper(services, Configuration);
+            //services.AddSingleton(Mapper.Configuration);
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IAsyncRepository<,>), typeof(EFRepository<,>));
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<DbInitializer>();
-            services.AddMvc().
-                AddJsonOptions(options =>
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,13 +76,18 @@ namespace liyobe.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
-            app.UseStaticFiles();
-            app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
+
+        //public static void CreateMapper(IServiceCollection services, IConfiguration configuration)
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.AddProfile(new DomainToViewModelMappingProfile());
+        //    });
+        //    services.AddSingleton(config.CreateMapper());
+        //}
     }
 }

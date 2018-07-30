@@ -8,6 +8,7 @@ namespace liyobe.ApplicationCore.AutoMapper
     {
         public DomainToViewModelMappingProfile()
         {
+            //CreateMap<Function, FunctionViewModel>();
             CreateMap<Function, FunctionViewModel>();
         }
     }

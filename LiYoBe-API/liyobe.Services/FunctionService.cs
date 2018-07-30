@@ -3,11 +3,9 @@ using liyobe.ApplicationCore.Entities;
 using liyobe.ApplicationCore.Interfaces.IRepository;
 using liyobe.ApplicationCore.Interfaces.IServices;
 using liyobe.ApplicationCore.Interfaces.IUnitOfWork;
-using liyobe.ApplicationCore.Specifications;
 using liyobe.ApplicationCore.ViewModels.System;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace liyobe.Services
@@ -54,13 +52,16 @@ namespace liyobe.Services
         public async Task<List<FunctionViewModel>> GetAll(string functionId)
         {
             //Guard.Against.NullOrEmpty(userName, nameof(userName));
-            var basketSpec = new FunctionSpecification(functionId);
-            var query = _functionRepository.ListAllAsync();
+            //var basketSpec = new FunctionSpecification(functionId);
+            var query = await _functionRepository.ListAllAsync();
 
-            var data = (await query).ToList();
-            var result = Mapper.Map<List<Function>, List<FunctionViewModel>>(data);
-            //return data.OrderBy(x=>x.ParentId).ProjectTo..
-            return result;
+            //var data = (await query).ToList();
+
+                var result = _mapper.Map<List<Function>, List<FunctionViewModel>>(query);
+                return result;
+            
+
+            //var result = query.AsQueryable().ProjectTo<FunctionViewModel>().ToList();
         }
 
         //public IEnumerable<FunctionViewModel> GetAllWithParentId(string parentId)

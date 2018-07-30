@@ -37,6 +37,10 @@ namespace liyobe.WebApi
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseSetting("detailedErrors", "true")
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
     }
