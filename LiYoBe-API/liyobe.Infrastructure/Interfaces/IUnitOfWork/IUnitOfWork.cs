@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace liyobe.ApplicationCore.Interfaces.IUnitOfWork
+namespace liyobe.Infrastructure.Interfaces.IUnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -1,4 +1,4 @@
-﻿namespace liyobe.ApplicationCore.Entities
+﻿namespace liyobe.Models.Interfaces
 {
     public interface ISortable
     {

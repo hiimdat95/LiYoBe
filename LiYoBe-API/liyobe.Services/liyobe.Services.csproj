@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.GuardClauses" Version="1.2.3" />
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
   </ItemGroup>
@@ -13,6 +14,7 @@
     <ProjectReference Include="..\liyobe.ApplicationCore\liyobe.ApplicationCore.csproj" />
     <ProjectReference Include="..\liyobe.Data\liyobe.Data.csproj" />
     <ProjectReference Include="..\liyobe.Infrastructure\liyobe.Infrastructure.csproj" />
+    <ProjectReference Include="..\liyobe.Models\liyobe.Models.csproj" />
     <ProjectReference Include="..\liyobe.Utilities\liyobe.Utilities.csproj" />
   </ItemGroup>
 

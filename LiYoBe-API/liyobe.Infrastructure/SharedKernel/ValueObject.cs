@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace liyobe.ApplicationCore.SharedKernel
+namespace liyobe.Infrastructure.SharedKernel
 {
     public abstract class ValueObject : IEquatable<ValueObject>
     {

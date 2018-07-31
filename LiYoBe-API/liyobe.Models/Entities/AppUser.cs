@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using liyobe.Models.Interfaces;
+using liyobe.Utilities.Constants;
+using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace liyobe.ApplicationCore.Entities
+namespace liyobe.Models.Entities
 {
-    [Table("AppUsers")]
+    [Table(TablesConstant.AppUsers)]
     public class AppUser : IdentityUser<Guid>, IDateTracking, ISwitchable
     {
-        public AppUser() { }
+        public AppUser()
+        {
+        }
+
         public AppUser(Guid id, string fullName, string userName,
             string email, string phoneNumber, string avatar)
         {
@@ -20,6 +23,7 @@ namespace liyobe.ApplicationCore.Entities
             PhoneNumber = phoneNumber;
             Avatar = avatar;
         }
+
         public string FullName { get; set; }
 
         public DateTime? BirthDay { set; get; }

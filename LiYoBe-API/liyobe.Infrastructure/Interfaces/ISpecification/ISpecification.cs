@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace liyobe.ApplicationCore.Interfaces.ISpecification
+namespace liyobe.Infrastructure.Interfaces.ISpecification
 {
     public interface ISpecification<T>
     {

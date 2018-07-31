@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace liyobe.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitializeData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

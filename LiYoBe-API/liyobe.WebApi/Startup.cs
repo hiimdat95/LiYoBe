@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
-using liyobe.ApplicationCore.Entities;
-using liyobe.ApplicationCore.Interfaces.IRepository;
+using liyobe.ApplicationCore.AutoMapper;
 using liyobe.ApplicationCore.Interfaces.IServices;
-using liyobe.ApplicationCore.Interfaces.IUnitOfWork;
 using liyobe.Data;
+using liyobe.Infrastructure.Interfaces.IRepository;
+using liyobe.Infrastructure.Interfaces.IUnitOfWork;
+using liyobe.Models.Entities;
 using liyobe.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +32,6 @@ namespace liyobe.WebApi
             services.AddDbContext<AppDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("AppDbConnection"),
                        b => b.MigrationsAssembly("liyobe.Data")));
-
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
@@ -59,14 +60,14 @@ namespace liyobe.WebApi
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
             //CreateMapper(services, Configuration);
-            //services.AddSingleton(Mapper.Configuration);
+            services.AddSingleton(new AutoMapperConfig());
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IAsyncRepository<,>), typeof(EFRepository<,>));
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<DbInitializer>();
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,18 +77,13 @@ namespace liyobe.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.UseStaticFiles();
-            //app.UseHttpsRedirection();
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
+            app.UseStaticFiles();
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
-
-        //public static void CreateMapper(IServiceCollection services, IConfiguration configuration)
-        //{
-        //    var config = new MapperConfiguration(cfg =>
-        //    {
-        //        cfg.AddProfile(new DomainToViewModelMappingProfile());
-        //    });
-        //    services.AddSingleton(config.CreateMapper());
-        //}
     }
 }

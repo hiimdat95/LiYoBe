@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180726170510_InitialCreate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.1.1" />
@@ -16,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\liyobe.ApplicationCore\liyobe.ApplicationCore.csproj" />
+    <ProjectReference Include="..\liyobe.Infrastructure\liyobe.Infrastructure.csproj" />
+    <ProjectReference Include="..\liyobe.Models\liyobe.Models.csproj" />
+    <ProjectReference Include="..\liyobe.Utilities\liyobe.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

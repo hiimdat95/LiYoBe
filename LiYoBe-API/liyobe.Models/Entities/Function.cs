@@ -1,19 +1,18 @@
-﻿using liyobe.ApplicationCore.SharedKernel;
-using System;
-using System.Collections.Generic;
+﻿using liyobe.Infrastructure.SharedKernel;
+using liyobe.Models.Interfaces;
+using liyobe.Utilities.Constants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace liyobe.ApplicationCore.Entities
+namespace liyobe.Models.Entities
 {
-    [Table("Functions")]
+    [Table(TablesConstant.Functions)]
     public class Function : BaseEntity<string>, ISwitchable, ISortable
     {
         public Function()
         {
-
         }
+
         public Function(string name, string url, string parentId, string iconCss, int sortOrder)
         {
             this.Name = name;
@@ -22,6 +21,7 @@ namespace liyobe.ApplicationCore.Entities
             this.IconCss = iconCss;
             this.SortOrder = sortOrder;
         }
+
         [Required]
         [StringLength(128)]
         public string Name { set; get; }
@@ -29,7 +29,6 @@ namespace liyobe.ApplicationCore.Entities
         [Required]
         [StringLength(250)]
         public string URL { set; get; }
-
 
         [StringLength(128)]
         public string ParentId { set; get; }

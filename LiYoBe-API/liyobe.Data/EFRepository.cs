@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using liyobe.ApplicationCore.Interfaces.IRepository;
+﻿using liyobe.Infrastructure.Interfaces.IRepository;
+using liyobe.Infrastructure.Interfaces.ISpecification;
+using liyobe.Infrastructure.SharedKernel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using liyobe.ApplicationCore.SharedKernel;
 using System.Linq;
-using System.Linq.Expressions;
-using liyobe.ApplicationCore.Interfaces.ISpecification;
 using System.Threading.Tasks;
 
 namespace liyobe.Data
@@ -33,7 +31,6 @@ namespace liyobe.Data
         {
             return List(spec).FirstOrDefault();
         }
-
 
         public virtual async Task<T> GetByIdAsync(int id)
         {
@@ -67,6 +64,7 @@ namespace liyobe.Data
                             .Where(spec.Criteria)
                             .AsEnumerable();
         }
+
         public async Task<List<T>> ListAsync(ISpecification<T> spec)
         {
             // fetch a Queryable that includes all expression-based includes
@@ -106,6 +104,7 @@ namespace liyobe.Data
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
         }
+
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
@@ -117,11 +116,13 @@ namespace liyobe.Data
             _dbContext.Set<T>().Remove(entity);
             _dbContext.SaveChanges();
         }
+
         public async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+
         public void Dispose()
         {
             if (_dbContext != null)

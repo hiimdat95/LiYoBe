@@ -1,4 +1,4 @@
-﻿using liyobe.ApplicationCore.Entities;
+﻿using liyobe.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

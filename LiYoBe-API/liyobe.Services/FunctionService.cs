@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
-using liyobe.ApplicationCore.Entities;
-using liyobe.ApplicationCore.Interfaces.IRepository;
+using AutoMapper.QueryableExtensions;
 using liyobe.ApplicationCore.Interfaces.IServices;
-using liyobe.ApplicationCore.Interfaces.IUnitOfWork;
 using liyobe.ApplicationCore.ViewModels.System;
+using liyobe.Infrastructure.Interfaces.IRepository;
+using liyobe.Infrastructure.Interfaces.IUnitOfWork;
+using liyobe.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace liyobe.Services
 {
     public class FunctionService : IFunctionService
     {
-        //private readonly IAsyncRepository<Function> _functionRepository;
         private IAsyncRepository<Function, string> _functionRepository;
-
         private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
@@ -29,56 +29,48 @@ namespace liyobe.Services
 
         //public bool CheckExistedId(string id)
         //{
-        //    return _functionRepository.FindById(id) != null;
+        //    return _functionRepository.GetByIdAsync(id) != null;
         //}
-
-        //public void Add(FunctionViewModel functionVm)
-        //{
-        //    var function = _mapper.Map<Function>(functionVm);
-        //    _functionRepository.Add(function);
-        //}
-
-        //public void Delete(string id)
-        //{
-        //    _functionRepository.Remove(id);
-        //}
-
-        //public FunctionViewModel GetById(string id)
-        //{
-        //    var function = _functionRepository.FindSingle(x => x.Id == id);
-        //    return Mapper.Map<Function, FunctionViewModel>(function);
-        //}
-
-        public async Task<List<FunctionViewModel>> GetAll(string functionId)
+        public async Task<FunctionViewModel> GetById(string functionId)
         {
-            //Guard.Against.NullOrEmpty(userName, nameof(userName));
-            //var basketSpec = new FunctionSpecification(functionId);
-            var query = await _functionRepository.ListAllAsync();
-
-            //var data = (await query).ToList();
-
-                var result = _mapper.Map<List<Function>, List<FunctionViewModel>>(query);
-                return result;
-            
-
-            //var result = query.AsQueryable().ProjectTo<FunctionViewModel>().ToList();
+            var function = (await _functionRepository.ListAllAsync()).AsEnumerable().Where(x => x.Id == functionId).FirstOrDefault();
+            return _mapper.Map<Function, FunctionViewModel>(function);
         }
 
-        //public IEnumerable<FunctionViewModel> GetAllWithParentId(string parentId)
-        //{
-        //    return _functionRepository.FindAll(x => x.ParentId == parentId).ProjectTo<FunctionViewModel>();
-        //}
+        public void Add(FunctionViewModel functionVm)
+        {
+            var function = _mapper.Map<Function>(functionVm);
+            _functionRepository.AddAsync(function);
+        }
 
-        //public void Save()
-        //{
-        //    _unitOfWork.Commit();
-        //}
+        public async void Delete(string functionId)
+        {
+            await _functionRepository.DeleteAsync((await _functionRepository.ListAllAsync()).AsQueryable().Where(x => x.Id == functionId).FirstOrDefault());
+        }
 
-        //public void Update(FunctionViewModel functionVm)
-        //{
-        //    var functionDb = _functionRepository.FindById(functionVm.Id);
-        //    var function = _mapper.Map<Function>(functionVm);
-        //}
+
+        public async Task<List<FunctionViewModel>> GetAll()
+        {
+            var query = await _functionRepository.ListAllAsync();
+            return _mapper.Map<List<Function>, List<FunctionViewModel>>(query);
+        }
+
+        public async Task<IEnumerable<FunctionViewModel>> GetAllWithParentId(string parentId)
+        {
+            var lstFunctionByParent = (await _functionRepository.ListAllAsync()).AsQueryable().Where(x => x.ParentId == parentId).ProjectTo<FunctionViewModel>();
+            return lstFunctionByParent;
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Commit();
+        }
+
+        public async void Update(FunctionViewModel functionVm)
+        {
+            var functionDb = (await _functionRepository.ListAllAsync()).AsQueryable().Where(x=>x.Id==functionVm.Id).FirstOrDefault();
+            var function = _mapper.Map<Function>(functionVm);
+        }
 
         //public void ReOrder(string sourceId, string targetId)
         //{
@@ -93,21 +85,22 @@ namespace liyobe.Services
         //    _functionRepository.Update(target);
         //}
 
-        //public void UpdateParentId(string sourceId, string targetId, Dictionary<string, int> items)
-        //{
-        //    //Update parent id for source
-        //    var category = _functionRepository.FindById(sourceId);
-        //    category.ParentId = targetId;
-        //    _functionRepository.Update(category);
+        public async void UpdateParentId(string sourceId, string targetId, Dictionary<string, int> items)
+        {
+            //Update parent id for source
+            var category = (await _functionRepository.ListAllAsync()).AsQueryable().Where(x => x.Id == sourceId).FirstOrDefault();
+            //var category = _functionRepository.FindById(sourceId);
+            category.ParentId = targetId;
+            await _functionRepository.UpdateAsync(category);
 
-        //    //Get all sibling
-        //    var sibling = _functionRepository.FindAll(x => items.ContainsKey(x.Id));
-        //    foreach (var child in sibling)
-        //    {
-        //        child.SortOrder = items[child.Id];
-        //        _functionRepository.Update(child);
-        //    }
-        //}
+            //Get all sibling
+            var sibling = (await _functionRepository.ListAllAsync()).AsQueryable().Where(x=>items.ContainsKey(x.Id));
+            foreach (var child in sibling)
+            {
+                child.SortOrder = items[child.Id];
+                await _functionRepository.UpdateAsync(child);
+            }
+        }
 
         public void Dispose()
         {

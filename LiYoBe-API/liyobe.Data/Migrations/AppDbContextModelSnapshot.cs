@@ -19,7 +19,7 @@ namespace liyobe.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("liyobe.ApplicationCore.Entities.AppRole", b =>
+            modelBuilder.Entity("liyobe.Models.Entities.AppRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -38,7 +38,7 @@ namespace liyobe.Data.Migrations
                     b.ToTable("AppRoles");
                 });
 
-            modelBuilder.Entity("liyobe.ApplicationCore.Entities.AppUser", b =>
+            modelBuilder.Entity("liyobe.Models.Entities.AppUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -90,7 +90,7 @@ namespace liyobe.Data.Migrations
                     b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("liyobe.ApplicationCore.Entities.Function", b =>
+            modelBuilder.Entity("liyobe.Models.Entities.Function", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace liyobe.Data.Migrations
                     b.ToTable("Functions");
                 });
 
-            modelBuilder.Entity("liyobe.ApplicationCore.Entities.SystemConfig", b =>
+            modelBuilder.Entity("liyobe.Models.Entities.SystemConfig", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()

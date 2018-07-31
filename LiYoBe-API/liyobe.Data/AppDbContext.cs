@@ -1,4 +1,4 @@
-﻿using liyobe.ApplicationCore.Entities;
+﻿using liyobe.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +17,7 @@ namespace liyobe.Data
 
         //public DbSet<Language> Languages { set; get; }
         public DbSet<SystemConfig> SystemConfigs { get; set; }
+
         public DbSet<Function> Functions { get; set; }
 
         public DbSet<AppUser> AppUsers { get; set; }

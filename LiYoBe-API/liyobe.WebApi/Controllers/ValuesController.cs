@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using liyobe.ApplicationCore.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
-using liyobe.ApplicationCore.Interfaces.IServices;
-using liyobe.ApplicationCore.ViewModels.System;
+using System.Threading.Tasks;
 
 namespace liyobe.WebApi.Controllers
 {
@@ -13,24 +9,19 @@ namespace liyobe.WebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        IFunctionService _functionService;
+        private IFunctionService _functionService;
+
         public ValuesController(IFunctionService functionService)
         {
             _functionService = functionService;
         }
+
         // GET api/values
         [HttpGet]
-        public async  Task<IActionResult> Get()
+        public async Task<IActionResult> Get()
         {
-            try
-            {
-                var data = _functionService.GetAll("");
-                return Ok(data);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception();
-            }
+            var data = await _functionService.GetAll();
+            return Ok(data);
         }
 
         // GET api/values/5

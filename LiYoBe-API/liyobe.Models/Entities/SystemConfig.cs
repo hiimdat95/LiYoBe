@@ -1,13 +1,13 @@
-﻿using liyobe.ApplicationCore.SharedKernel;
+﻿using liyobe.Infrastructure.SharedKernel;
+using liyobe.Models.Interfaces;
+using liyobe.Utilities.Constants;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace liyobe.ApplicationCore.Entities
+namespace liyobe.Models.Entities
 {
-    [Table("SystemConfigs")]
+    [Table(TablesConstant.SystemConfigs)]
     public class SystemConfig : BaseEntity<string>, ISwitchable
     {
         [Required]

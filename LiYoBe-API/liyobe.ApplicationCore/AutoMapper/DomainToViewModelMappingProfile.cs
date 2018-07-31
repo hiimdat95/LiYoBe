@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using liyobe.ApplicationCore.Entities;
 using liyobe.ApplicationCore.ViewModels.System;
+using liyobe.Models.Entities;
 
 namespace liyobe.ApplicationCore.AutoMapper
 {

@@ -19,6 +19,7 @@
     <ProjectReference Include="..\liyobe.ApplicationCore\liyobe.ApplicationCore.csproj" />
     <ProjectReference Include="..\liyobe.Data\liyobe.Data.csproj" />
     <ProjectReference Include="..\liyobe.Infrastructure\liyobe.Infrastructure.csproj" />
+    <ProjectReference Include="..\liyobe.Models\liyobe.Models.csproj" />
     <ProjectReference Include="..\liyobe.Services\liyobe.Services.csproj" />
     <ProjectReference Include="..\liyobe.Utilities\liyobe.Utilities.csproj" />
   </ItemGroup>

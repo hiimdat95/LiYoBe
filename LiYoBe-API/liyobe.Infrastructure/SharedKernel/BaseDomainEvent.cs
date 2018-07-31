@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace liyobe.ApplicationCore.SharedKernel
+namespace liyobe.Infrastructure.SharedKernel
 {
     public abstract class BaseDomainEvent
     {
