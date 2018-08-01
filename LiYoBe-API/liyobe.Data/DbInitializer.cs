@@ -57,6 +57,19 @@ namespace liyobe.Data
                 }, "123654$");
                 var user = await _userManager.FindByNameAsync("admin");
                 await _userManager.AddToRoleAsync(user, "Admin");
+
+                await _userManager.CreateAsync(new AppUser()
+                {
+                    UserName = "ltdat",
+                    FullName = "Le Tien Dat",
+                    Email = "letiendat2808@gmail.com",
+                    Balance = 0,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Status = true
+                }, "123654$");
+                var ltdat = await _userManager.FindByNameAsync("ltdat");
+                await _userManager.AddToRoleAsync(ltdat, "Staff");
             }
             //if (!_context.Contacts.Any())
             //{

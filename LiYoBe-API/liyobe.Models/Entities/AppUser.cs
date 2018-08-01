@@ -14,7 +14,7 @@ namespace liyobe.Models.Entities
         }
 
         public AppUser(Guid id, string fullName, string userName,
-            string email, string phoneNumber, string avatar)
+            string email, string phoneNumber, string avatar, bool status)
         {
             Id = id;
             FullName = fullName;
@@ -22,6 +22,7 @@ namespace liyobe.Models.Entities
             Email = email;
             PhoneNumber = phoneNumber;
             Avatar = avatar;
+            Status=status;
         }
 
         public string FullName { get; set; }

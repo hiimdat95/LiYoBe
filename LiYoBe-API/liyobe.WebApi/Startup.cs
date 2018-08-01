@@ -53,19 +53,21 @@ namespace liyobe.WebApi
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup).Assembly);
 
             // Add application services.
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
             //CreateMapper(services, Configuration);
-            services.AddSingleton(new AutoMapperConfig());
+            //services.AddSingleton(new AutoMapperConfig());
+             //services.AddSingleton(Mapper.Configuration);
+            AutoMapperConfig.RegisterMappings();
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
-
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IAsyncRepository<,>), typeof(EFRepository<,>));
             services.AddTransient<IFunctionService, FunctionService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<DbInitializer>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -84,6 +86,16 @@ namespace liyobe.WebApi
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+        public static void CreateMapper(IServiceCollection services, IConfiguration configuration)
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile(new DomainToViewModelMappingProfile());
+                x.AddProfile(new ViewModelToDomainMappingProfile());
+            });
+            //Mapper.Configuration.AssertConfigurationIsValid();
+            //services.AddSingleton(x.CreateMapper());
         }
     }
 }

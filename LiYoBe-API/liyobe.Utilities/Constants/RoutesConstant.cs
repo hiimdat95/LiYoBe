@@ -7,9 +7,9 @@
         public const string FunctionGetAll = "getall";
         public const string FunctionDetail = "detail/{functionId}";
 
-        //AppUser
-        public const string AppUserApi = "api/appuser";
-        public const string AppUserGetAll = "getall";
-        public const string AppUserDetail = "detail/{userId}";
+        //Account
+        public const string AccountApi = "api/account";
+        public const string AccountGetAll = "getall";
+        public const string AccountDetail = "detail/{userId}";
     }
 }
