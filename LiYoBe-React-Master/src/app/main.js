@@ -1,7 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./components/app/App";
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import { configureStore } from './store';
+import { App } from './components/App';
 
-  // "start": "node_modules/.bin/webpack -d --watch",
+// setup fake backend
+import { configureFakeBackend } from './helpers';
+configureFakeBackend();
+
+render(
+    <Provider configureStore={configureStore}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
+);

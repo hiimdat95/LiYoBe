@@ -15,14 +15,18 @@ var config = {
     path: BUILD_DIR,
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   module: {
     rules: [
         {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-                loader: "babel-loader"
-            },
+          test: /\.jsx?$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: 'babel-loader',
+          query: {
+              presets: ['react', 'es2015', 'stage-3']
+          }
         },
         {
             test: /\.css$/,
@@ -33,17 +37,24 @@ var config = {
             loader: 'url-loader?limit=100000'
         }
     ]
-}, 
+  }, 
   devServer: {
     contentBase: './client',
+    historyApiFallback: true,
     hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/app/index.html",
-      inject: true
+      inject: 'body'
     })
-  ]
+  ],
+  externals: {
+    // global app config object
+    config: JSON.stringify({
+        apiUrl: 'http://localhost:4000'
+    })
+  }
 };
 
 module.exports = config;
