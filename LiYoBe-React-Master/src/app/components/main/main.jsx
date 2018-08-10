@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import { history } from '../../helpers';
 import { alertActions } from '../../actions';
-import { PrivateRoute } from '../../components/PrivateRoute';
+import { PrivateRoute } from '../privateroute';
 import { HomePage } from '../home';
-import { LoginPage } from '../LoginPage';
+import { LoginPage } from '../loginpage';
 
-class App extends React.Component {
+class Main extends React.Component {
     constructor(props) {
         super(props);
 
@@ -48,5 +48,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedApp = connect(mapStateToProps)(App);
-export { connectedApp as App }; 
+const connectedMain = connect(mapStateToProps)(Main);
+export { connectedMain as Main }; 
