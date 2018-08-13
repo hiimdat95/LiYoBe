@@ -95,7 +95,7 @@ class TopMenu extends React.Component {
                                 <li>
                                     <a href="#">
                                         <span className="photo">
-                                            <img alt="avatar" src="images/3.png" />
+                                            <img alt="avatar" src="../../../assets/images/3.png" />
                                         </span>
                                         <span className="subject">
                                             <span className="from">Jonathan Smith</span>
@@ -109,7 +109,7 @@ class TopMenu extends React.Component {
                                 <li>
                                     <a href="#">
                                         <span className="photo">
-                                            <img alt="avatar" src="images/1.png" />
+                                            <img alt="avatar" src="../../../src/assets/images/1.png" />
                                         </span>
                                         <span className="subject">
                                             <span className="from">Jane Doe</span>
@@ -119,11 +119,11 @@ class TopMenu extends React.Component {
                                             Nice admin template
 									</span>
                                     </a>
-                                </li>
+                                </li>   
                                 <li>
                                     <a href="#">
                                         <span className="photo">
-                                            <img alt="avatar" src="images/3.png" />
+                                            <img alt="avatar" src="../../../assets/images/3.png" />
                                         </span>
                                         <span className="subject">
                                             <span className="from">Tasi sam</span>
@@ -137,7 +137,7 @@ class TopMenu extends React.Component {
                                 <li>
                                     <a href="#">
                                         <span className="photo">
-                                            <img alt="avatar" src="images/2.png" />
+                                            <img alt="avatar" src="../../../assets/images/2.png" />
                                         </span>
                                         <span className="subject">
                                             <span className="from">Mr. Perfect</span>
@@ -205,7 +205,7 @@ class TopMenu extends React.Component {
                         </li>
                         <li className="dropdown">
                             <a data-toggle="dropdown" className="dropdown-toggle" href="#">
-                                <img alt="" src="images/2.png" />
+                                <img alt="" src="../../../assets/images/2.png" />
                                 <span className="username">John Doe</span>
                                 <b className="caret"></b>
                             </a>
