@@ -21,12 +21,19 @@ var config = {
   module: {
     rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.(js|jsx)$/,
           exclude: /(node_modules|bower_components)/,
-          loader: 'babel-loader',
-          query: {
-              presets: ['react', 'es2015', 'stage-3']
-          }
+          loader: 'babel-loader'
+        },
+        {
+          test: /\.scss$/,
+          use: [{
+            loader: 'style-loader'
+          },{
+            loader: 'css-loader'
+          },{
+            loader: 'sass-loader'
+          }]
         },
         {
             test: /\.css$/,

@@ -1,16 +1,22 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch } from "react-router-dom";
 
-import { store } from './store';
-import { Main } from './components/main';
+import './assets/css/material-dashboard-react.css?v=1.4.1"';
+import 'font-awesome/css/font-awesome.min.css';
 
-// setup fake backend
-import { configureFakeBackend } from './helpers';
-configureFakeBackend();
-render(
-    <Provider store={store}>
-        <Main />
-    </Provider>,
-    document.getElementById('app')
+import indexRoutes from "./routes/index.jsx";
+
+const hist = createBrowserHistory();
+
+ReactDOM.render(
+  <Router history={hist}>
+    <Switch>
+      {indexRoutes.map((prop, key) => {
+        return <Route path={prop.path} component={prop.component} key={key} />;
+      })}
+    </Switch>
+  </Router>,
+  document.getElementById("app")
 );
