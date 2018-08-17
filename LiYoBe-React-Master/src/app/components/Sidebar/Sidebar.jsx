@@ -14,10 +14,11 @@ import Icon from "@material-ui/core/Icon";
 // core components
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 
-import sidebarStyle from "../../assets/jss/material-dashboard-react/components/sidebarStyle.jsx";
+import sidebarStyle from "../../../assets/jss/material-dashboard-react/components/sidebarStyle.jsx";
 
-const Sidebar = ({ ...props }) => {
+const Sidebar = ({...props }) => {
   // verifies if routeName is the one active (in browser input)
+  // console.log(props);
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
@@ -28,16 +29,17 @@ const Sidebar = ({ ...props }) => {
         if (prop.redirect) return null;
         var activePro = " ";
         var listItemClasses;
-        if (prop.path === "/upgrade-to-pro") {
-          activePro = classes.activePro + " ";
-          listItemClasses = classNames({
-            [" " + classes[color]]: true
-          });
-        } else {
+        // if (prop.path === "/upgrade-to-pro") {
+        //   activePro = classes.activePro + " ";
+        //   listItemClasses = classNames({
+        //     [" " + classes[color]]: true
+        //   });
+        // } else {
           listItemClasses = classNames({
             [" " + classes[color]]: activeRoute(prop.path)
           });
-        }
+          // console.log(color);
+        // }
         const whiteFontClasses = classNames({
           [" " + classes.whiteFont]: activeRoute(prop.path)
         });

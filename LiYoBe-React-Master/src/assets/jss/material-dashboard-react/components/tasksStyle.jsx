@@ -2,9 +2,9 @@ import {
   defaultFont,
   primaryColor,
   dangerColor
-} from "../../../../assets/jss/material-dashboard-react.jsx";
-import tooltipStyle from "../../../jss/material-dashboard-react/tooltipStyle.jsx";
-import checkboxAdnRadioStyle from "../../../jss/material-dashboard-react/checkboxAdnRadioStyle.jsx";
+} from "../../material-dashboard-react.jsx";
+import tooltipStyle from "../tooltipStyle.jsx";
+import checkboxAdnRadioStyle from "../checkboxAdnRadioStyle.jsx";
 const tasksStyle = {
   ...tooltipStyle,
   ...checkboxAdnRadioStyle,

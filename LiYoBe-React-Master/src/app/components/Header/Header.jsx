@@ -13,9 +13,10 @@ import Menu from "@material-ui/icons/Menu";
 import HeaderLinks from "./HeaderLinks";
 import Button from "../CustomButtons/Button";
 
-import headerStyle from "../../assets/jss/material-dashboard-react/components/headerStyle.jsx";
+import headerStyle from "../../../assets/jss/material-dashboard-react/components/headerStyle.jsx";
 
 function Header({ ...props }) {
+  console.log(props);
   function makeBrand() {
     var name;
     props.routes.map((prop, key) => {
