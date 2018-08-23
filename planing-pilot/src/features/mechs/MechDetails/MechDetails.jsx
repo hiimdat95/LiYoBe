@@ -15,33 +15,33 @@ import {Form} from "semantic-ui-react";
                 <label>ID</label>
                 <input
                     placeholder="ID"
-                    value={id}
+                    defaultValue={id}
                 />
             </Form.Field>
             <Form.Field name="name" width={16} >
                 <label>Name</label>
                 <input
                     placeholder="Name"
-                    value={name}
+                    defaultValue={name}
                 />
             </Form.Field>
             <Form.Field name="model" width={6} >
                 <label>Model</label>
                 <input
                     placeholder="Model"
-                    value={type}
+                    defaultValue={type}
                 />
             </Form.Field>
             <Form.Field name="weight" width={6} >
                 <label>Weight</label>
                 <input
-                    value={weight}
+                    defaultValue={weight}
                 />
             </Form.Field>
             <Form.Field name="class" width={6} >
                 <label>Class</label>
                 <input
-                    value={weightClass}
+                    defaultValue={weightClass}
                 />
             </Form.Field>
         </Form>

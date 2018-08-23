@@ -27,7 +27,7 @@ import {Form, Dropdown} from "semantic-ui-react";
                 <label>Name</label>
                 <input
                     placeholder="Name"
-                    value={name}
+                    defaultValue={name}
                 />
             </Form.Field>
             <Form.Field name="rank" width={16}>
@@ -43,19 +43,19 @@ import {Form, Dropdown} from "semantic-ui-react";
                 <label>Age</label>
                 <input
                     placeholder="Age"
-                    value={age}
+                    defaultValue={age}
                 />
             </Form.Field>
             <Form.Field name="gunnery" width={6}>
                 <label>Gunnery</label>
                 <input
-                    value={gunnery}
+                    defaultValue={gunnery}
                 />
             </Form.Field>
             <Form.Field name="piloting" width={6}>
                 <label>Piloting</label>
                 <input
-                    value={piloting}
+                    defaultValue={piloting}
                 />
             </Form.Field>
             <Form.Field name="mech" width={16}>

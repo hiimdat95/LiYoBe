@@ -13,7 +13,7 @@ const UnitInfo = () => {
             <Form size="large">
                 <Form.Field name="name" width={6}>
                     <label>Unit Name</label>
-                    <input placeholder="Name" value="Black Window Company"/>
+                    <input placeholder="Name" defaultValue="Black Window Company"/>
                 </Form.Field>
                 <Form.Field name="affiliation" width={6}>
                     <label>Affiliation</label>

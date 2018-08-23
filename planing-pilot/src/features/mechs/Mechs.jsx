@@ -1,8 +1,12 @@
 import React, {Component} from "react";
 
-import MechsList from "../MechsList";
-import MechDetails from "../MechDetails";
-
+import MechsList from "./MechsList";
+import MechDetails from "./MechDetails";
+import {
+    Grid,
+    Segment,
+    Header,
+} from "semantic-ui-react";
 const mechs = [
     {
         id : 1,

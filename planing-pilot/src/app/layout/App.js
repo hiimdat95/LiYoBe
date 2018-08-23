@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Tools from "features/tools/Tools";
 import './App.css';
 
 import {
@@ -11,6 +12,7 @@ import Mechs from "features/mechs/Mechs";
 import UnitOrganization from "features/unitOrganization/UnitOrganization";
 
 
+
 // const UnitInfo = () => <div> UnitInfo content</div>
 // const Pilots = () => <div> Pilots content</div>
 // const Mechs = () => <div> Mechs content</div>
@@ -21,7 +23,9 @@ class App extends Component {
       {name : "unitInfo", label : "Unit Info", component : UnitInfo,},
       {name : "pilots", label : "Pilots", component : Pilots,},
       {name : "mechs", label : "Mechs", component : Mechs,},
-      {name : "unitOrganization", label : "Unit Organization", component : UnitOrganization}
+      {name : "unitOrganization", label : "Unit Organization", component : UnitOrganization},
+      {name : "tools", label : "Tools", component : Tools},
+    
     ]
     return (
       <div className="App">
