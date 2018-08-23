@@ -8,6 +8,8 @@ import Table from "../../components/Table/Table.jsx";
 import Card from "../../components/Card/Card.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
+import { cpus } from "os";
+import { userActions } from '../../actions'
 
 const styles = {
   cardCategoryWhite: {
@@ -38,16 +40,22 @@ const styles = {
     }
   }
 };
-
-function TableList(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
+class TableList extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  componentWillMount(){
+    // this.props.dispatch(userActions.getAll());
+    // console.log(this.props);
+  }
+  render(){
+    return(
+      <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
+            <h4 className={this.props.classes.cardTitleWhite}>Simple Table</h4>
+            <p className={this.props.classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
           </CardHeader>
@@ -70,10 +78,10 @@ function TableList(props) {
       <GridItem xs={12} sm={12} md={12}>
         <Card plain>
           <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
+            <h4 className={this.props.classes.cardTitleWhite}>
               Table on Plain Background
             </h4>
-            <p className={classes.cardCategoryWhite}>
+            <p className={this.props.classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
           </CardHeader>
@@ -106,7 +114,8 @@ function TableList(props) {
         </Card>
       </GridItem>
     </GridContainer>
-  );
+    );
+  }
 }
 
 export default withStyles(styles)(TableList);
