@@ -47,4 +47,4 @@ export class Pilots extends Component {
     }
 }
 
-export default Pilots;
+export default connect()(Pilots); 

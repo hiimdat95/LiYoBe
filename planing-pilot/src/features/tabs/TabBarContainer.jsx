@@ -13,4 +13,5 @@ const mapState = (state) => {
 
 const actions = {onTabClick : selectTab};
 
+
 export default connect(mapState, actions)(TabBar);

@@ -9,7 +9,6 @@ import {
  class Tools extends Component {
     render() {
         const {loadUnitData} = this.props;
-        
         return (
             <Segment attached="bottom">
                 <Button onClick={loadUnitData}>Reload Unit Data</Button>

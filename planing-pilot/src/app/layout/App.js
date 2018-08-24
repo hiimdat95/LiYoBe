@@ -3,7 +3,7 @@ import Tools from "features/tools/Tools";
 import './App.css';
 
 import {
-  Header,Container,Menu
+  Header,Container
 } from "semantic-ui-react";
 import TabBarContainer from 'features/tabs/TabBarContainer';
 import UnitInfo from "features/unitInfo/UnitInfo";
@@ -11,12 +11,6 @@ import Pilots from "features/pilots/Pilots";
 import Mechs from "features/mechs/Mechs";
 import UnitOrganization from "features/unitOrganization/UnitOrganization";
 
-
-
-// const UnitInfo = () => <div> UnitInfo content</div>
-// const Pilots = () => <div> Pilots content</div>
-// const Mechs = () => <div> Mechs content</div>
-// const UnitOrgranization = () => <div> UnitOrgranization content</div>
 class App extends Component {
   render() {
     const tabs=[

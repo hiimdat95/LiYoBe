@@ -10,4 +10,4 @@ import {fetchData} from "data/mockAPI";
                 })
             });
     }
-} 
+}
