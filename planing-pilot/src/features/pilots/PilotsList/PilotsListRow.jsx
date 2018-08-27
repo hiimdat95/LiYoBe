@@ -1,7 +1,11 @@
 import React from "react";
 import {Table} from "semantic-ui-react";
- const PilotsListRow = ({pilot={}}) => {
+import _ from "lodash";
+
+
+const PilotsListRow = ({pilot={}, onPilotClicked=_.noop, selected}) => {
     const {
+        id = null,
         name = "",
         rank = "",
         age = "",
@@ -9,8 +13,9 @@ import {Table} from "semantic-ui-react";
         piloting = "",
         mechType = "",
     } = pilot;
-     return (
-        <Table.Row>
+
+    return (
+        <Table.Row  onClick={() => onPilotClicked(id)} active={selected}>
             <Table.Cell>
                 {name}
             </Table.Cell>

@@ -1,16 +1,27 @@
 import React from "react";
 import {Table} from "semantic-ui-react";
- import {getWeightClass} from "../mechSelectors";
- const MechsListRow = ({mech={}}) => {
+
+import {getWeightClass} from "../mechSelectors";
+import _ from "lodash";
+
+
+
+const MechsListRow = ({mech, onMechClicked, selected}) => {
     const {
-        id = "",
-        name = "",
+        id = null,
         type = "",
-        weight = "",
+        mechType = {},
     } = mech;
+
+    const {
+        name = "",
+        weight = "",
+    } = mechType;
+
     const weightClass = getWeightClass(weight);
-     return (
-        <Table.Row>
+
+    return (
+        <Table.Row onClick={() => onMechClicked(id)} active={selected}>
             <Table.Cell>
                 {id}
             </Table.Cell>
@@ -29,4 +40,6 @@ import {Table} from "semantic-ui-react";
         </Table.Row>
     );
 }
- export default MechsListRow; 
+
+
+export default MechsListRow;
