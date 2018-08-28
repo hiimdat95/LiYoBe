@@ -1,5 +1,10 @@
 import React from "react";
+import {connect} from "react-redux";
 import {Form, Dropdown} from "semantic-ui-react";
+
+import schema from "app/schema";
+import {selectCurrentPilot} from "../pilotsSelectors";
+
  const RANKS = [
     {value: "Private", text : "Private"},
     {value: "Corporal", text : "Corporal"},
@@ -12,6 +17,19 @@ import {Form, Dropdown} from "semantic-ui-react";
  const MECHS = [
     {value : "WHM-6R", text : "Warhammer WHM-6R"}
 ];
+
+const mapState = (state) =>{
+    let pilot;
+
+    const currentPilot = selectCurrentPilot(state);
+    const session = schema.from(state.entities);
+    const {Pilot} = session;
+    if(Pilot.hasId(currentPilot)){
+        pilot = Pilot.withId(currentPilot).ref;
+    }
+    return {pilot}
+}
+
  const PilotDetails = ({pilot={}}) =>{
     const {
         name = "",
@@ -28,6 +46,7 @@ import {Form, Dropdown} from "semantic-ui-react";
                 <input
                     placeholder="Name"
                     defaultValue={name}
+                    disabled={true}
                 />
             </Form.Field>
             <Form.Field name="rank" width={16}>
@@ -37,6 +56,7 @@ import {Form, Dropdown} from "semantic-ui-react";
                     selection
                     options={RANKS}
                     value={rank}
+                    disabled={true}
                 />
             </Form.Field>
             <Form.Field name="age" width={6}>
@@ -44,18 +64,21 @@ import {Form, Dropdown} from "semantic-ui-react";
                 <input
                     placeholder="Age"
                     defaultValue={age}
+                    disabled={true}
                 />
             </Form.Field>
             <Form.Field name="gunnery" width={6}>
                 <label>Gunnery</label>
                 <input
                     defaultValue={gunnery}
+                    disabled={true}
                 />
             </Form.Field>
             <Form.Field name="piloting" width={6}>
                 <label>Piloting</label>
                 <input
                     defaultValue={piloting}
+                    disabled={true}
                 />
             </Form.Field>
             <Form.Field name="mech" width={16}>
@@ -65,9 +88,10 @@ import {Form, Dropdown} from "semantic-ui-react";
                     selection
                     options={MECHS}
                     value={mechType}
+                    disabled={true}
                 />
             </Form.Field>
         </Form>
     );
 }
- export default PilotDetails; 
+ export default connect(mapState)(PilotDetails);
