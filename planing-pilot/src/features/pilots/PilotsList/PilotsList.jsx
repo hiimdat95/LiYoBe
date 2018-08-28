@@ -42,7 +42,6 @@ export class PilotsList extends Component {
                 selected={pilotID === currentPilot}
             />
         ));
-        console.log(pilotRows);
         return (
             <Table celled>
                 <PilotsListHeader />

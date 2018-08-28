@@ -45,7 +45,7 @@ const mapState = (state) =>{
                 <label>Name</label>
                 <input
                     placeholder="Name"
-                    defaultValue={name}
+                    value={name}
                     disabled={true}
                 />
             </Form.Field>
@@ -63,21 +63,21 @@ const mapState = (state) =>{
                 <label>Age</label>
                 <input
                     placeholder="Age"
-                    defaultValue={age}
+                    value={age}
                     disabled={true}
                 />
             </Form.Field>
             <Form.Field name="gunnery" width={6}>
                 <label>Gunnery</label>
                 <input
-                    defaultValue={gunnery}
+                    value={gunnery}
                     disabled={true}
                 />
             </Form.Field>
             <Form.Field name="piloting" width={6}>
                 <label>Piloting</label>
                 <input
-                    defaultValue={piloting}
+                    value={piloting}
                     disabled={true}
                 />
             </Form.Field>
