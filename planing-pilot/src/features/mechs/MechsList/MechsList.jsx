@@ -19,7 +19,6 @@ const mapState = (state) => {
 
     return {mechs, currentMech}
 }
-
 const actions = {
     selectMech,
 };
@@ -35,7 +34,7 @@ export class MechsList extends Component {
                 onMechClicked={selectMech}
                 selected={mechID === currentMech}
             />
-    ));
+            ));
          return (
             <Table celled>
                 <MechsListHeader />
