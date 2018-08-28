@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux";
 import { Form, Dropdown, Segment } from 'semantic-ui-react';
-import { selectUnitInfo } from "./unitInfoSelectors";
+import { selectUnitInfo } from "../unitInfoSelectors";
+import { updateUnitInfo } from "../unitInfoActions";
 
 const FACTIONS = [
     //skip other entries
@@ -13,7 +14,19 @@ const FACTIONS = [
 const mapState = (state) => ({
     unitInfo: selectUnitInfo(state),
 });
+
+const actions = {
+    updateUnitInfo,
+};
 class UnitInfo extends Component {
+
+    onAffiliationChanged = (e, result) => {
+        const {name, value} = result;
+
+        const newValues = { [name] : value }
+        this.props.updateUnitInfo(newValues);
+    }
+
     render() {
         const { unitInfo } = this.props;
         const { name, affiliation } = unitInfo;
@@ -22,14 +35,16 @@ class UnitInfo extends Component {
                 <Form size="large">
                     <Form.Field name="name" width={6}>
                         <label>Unit Name</label>
-                        <input type="text" placeholder="Name" onChange={() => { }} value={name} />
+                        <input type="text" placeholder="Name" name="name" defaultValue={name}/>
                     </Form.Field>
                     <Form.Field name="affiliation" width={6}>
                         <label>Affiliation</label>
                         <Dropdown
+                            name="affiliation"
                             selection
                             options={FACTIONS}
                             value={affiliation}
+                            onChange={this.onAffiliationChanged}
                         />
                     </Form.Field>
                 </Form>
@@ -37,4 +52,4 @@ class UnitInfo extends Component {
         )
     }
 }
-export default connect(mapState)(UnitInfo);
+export default connect(mapState, actions)(UnitInfo);

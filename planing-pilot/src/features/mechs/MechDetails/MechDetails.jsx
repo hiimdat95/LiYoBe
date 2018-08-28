@@ -44,8 +44,6 @@ const MechDetails = ({mech={}}) => {
 
 
     const weightClass = getWeightClass(weight);
-    console.log(weightClass);
-    
      return (
         <Form size="large">
             <Form.Field name="id" width={6} >
