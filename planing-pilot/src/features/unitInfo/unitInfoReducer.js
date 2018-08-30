@@ -20,4 +20,4 @@ function dataLoaded(state, payload) {
 export default createReducer(initialState, {
     [DATA_LOADED] : dataLoaded,
     [UNIT_INFO_UPDATE] : updateUnitInfo,
-}); 
+});  

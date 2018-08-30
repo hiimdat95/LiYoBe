@@ -1,11 +1,15 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Form, Dropdown} from "semantic-ui-react";
+import {Form, Dropdown, Grid, Button} from "semantic-ui-react";
 
 import schema from "app/schema";
-import {selectCurrentPilot} from "../pilotsSelectors";
+import {selectCurrentPilot, selectIsEditingPilot} from "../pilotsSelectors";
+import {
+    startEditingPilot,
+    stopEditingPilot,
+} from "../pilotsActions"
 
- const RANKS = [
+const RANKS = [
     {value: "Private", text : "Private"},
     {value: "Corporal", text : "Corporal"},
     {value: "Sergeant", text : "Sergeant"},
@@ -27,10 +31,18 @@ const mapState = (state) =>{
     if(Pilot.hasId(currentPilot)){
         pilot = Pilot.withId(currentPilot).ref;
     }
-    return {pilot}
+
+    const pilotIsSelected = Boolean(currentPilot);
+    const isEditingPilot = selectIsEditingPilot(state);
+    return {pilot, pilotIsSelected, isEditingPilot}
 }
 
- const PilotDetails = ({pilot={}}) =>{
+const actions = { 
+    startEditingPilot,
+    stopEditingPilot,
+}
+
+const PilotDetails = ({pilot={}, pilotIsSelected = false, isEditingPilot = false, ...actions}) =>{
     const {
         name = "",
         rank = "",
@@ -39,14 +51,18 @@ const mapState = (state) =>{
         piloting = "",
         mechType = "",
     } = pilot;
-     return (
+
+    const canStartEditing = pilotIsSelected && !isEditingPilot;
+    const canStopEditing = pilotIsSelected && isEditingPilot;
+
+    return (
         <Form size="large">
             <Form.Field name="name" width={16}>
                 <label>Name</label>
                 <input
                     placeholder="Name"
                     value={name}
-                    disabled={true}
+                    disabled={!canStopEditing}
                 />
             </Form.Field>
             <Form.Field name="rank" width={16}>
@@ -56,7 +72,7 @@ const mapState = (state) =>{
                     selection
                     options={RANKS}
                     value={rank}
-                    disabled={true}
+                    disabled={!canStopEditing}
                 />
             </Form.Field>
             <Form.Field name="age" width={6}>
@@ -64,21 +80,21 @@ const mapState = (state) =>{
                 <input
                     placeholder="Age"
                     value={age}
-                    disabled={true}
+                    disabled={!canStopEditing}
                 />
             </Form.Field>
             <Form.Field name="gunnery" width={6}>
                 <label>Gunnery</label>
                 <input
                     value={gunnery}
-                    disabled={true}
+                    disabled={!canStopEditing}
                 />
             </Form.Field>
             <Form.Field name="piloting" width={6}>
                 <label>Piloting</label>
                 <input
                     value={piloting}
-                    disabled={true}
+                    disabled={!canStopEditing}
                 />
             </Form.Field>
             <Form.Field name="mech" width={16}>
@@ -91,7 +107,27 @@ const mapState = (state) =>{
                     disabled={true}
                 />
             </Form.Field>
+
+            <Grid.Row width={16}>
+                <Button
+                    primary
+                    disabled={!canStartEditing}
+                    type="button"
+                    onClick={actions.startEditingPilot}
+                >
+                    Start Editing
+                </Button>
+                 <Button
+                    secondary
+                    disabled={!canStopEditing}
+                    type="button"
+                    onClick={actions.stopEditingPilot}
+                >
+                    Stop Editing
+                </Button>
+
+            </Grid.Row>
         </Form>
     );
 }
- export default connect(mapState)(PilotDetails);
+ export default connect(mapState, actions)(PilotDetails);

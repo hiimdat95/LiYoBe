@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Form, Dropdown, Segment } from 'semantic-ui-react';
 import { selectUnitInfo } from "../unitInfoSelectors";
 import { updateUnitInfo } from "../unitInfoActions";
+import {getValueFromEvent} from "common/utils/clientUtils";
 
 const FACTIONS = [
     //skip other entries
@@ -26,6 +27,12 @@ class UnitInfo extends Component {
         const newValues = { [name] : value }
         this.props.updateUnitInfo(newValues);
     }
+    
+    onNameChanged = (e) => {
+        const newValues = getValueFromEvent(e);
+        this.props.updateUnitInfo(newValues);
+    }
+
 
     render() {
         const { unitInfo } = this.props;
@@ -35,7 +42,12 @@ class UnitInfo extends Component {
                 <Form size="large">
                     <Form.Field name="name" width={6}>
                         <label>Unit Name</label>
-                        <input type="text" placeholder="Name" name="name" defaultValue={name}/>
+                        <input
+                           placeholder="Name"
+                           name="name"
+                           value={name}
+                           onChange={this.onNameChanged}
+                       />
                     </Form.Field>
                     <Form.Field name="affiliation" width={6}>
                         <label>Affiliation</label>
