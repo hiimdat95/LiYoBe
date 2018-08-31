@@ -1,26 +1,31 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Form, Dropdown, Grid, Button, Input } from "semantic-ui-react";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {Form, Dropdown, Grid, Button} from "semantic-ui-react";
 
 import schema from "app/schema";
-import { selectCurrentPilot, selectIsEditingPilot } from "../pilotsSelectors";
+
+import FormEditWrapper from "common/components/FormEditWrapper";
+
+import {selectCurrentPilot, selectIsEditingPilot} from "../pilotsSelectors";
+
 import {
     startEditingPilot,
     stopEditingPilot,
-} from "../pilotsActions"
+} from "../pilotsActions";
 
 import {updateEntity} from "features/entities/entityActions";
 
 import {getValueFromEvent} from "common/utils/clientUtils";
 
+
 const RANKS = [
-    { value: "Private", text: "Private" },
-    { value: "Corporal", text: "Corporal" },
-    { value: "Sergeant", text: "Sergeant" },
-    { value: "Lieutenant", text: "Lieutenant" },
-    { value: "Captain", text: "Captain" },
-    { value: "Major", text: "Major" },
-    { value: "Colonel", text: "Colonel" },
+    {value: "Private", text : "Private"},
+    {value: "Corporal", text : "Corporal"},
+    {value: "Sergeant", text : "Sergeant"},
+    {value: "Lieutenant", text : "Lieutenant"},
+    {value: "Captain", text : "Captain"},
+    {value: "Major", text : "Major"},
+    {value: "Colonel", text : "Colonel"},
 ];
 
 const SKILL_VALUES = [
@@ -36,38 +41,56 @@ const SKILL_VALUES = [
 ]
 
 const MECHS = [
-    { value: "WHM-6R", text: "Warhammer WHM-6R" }
+    {value : "WHM-6R", text : "Warhammer WHM-6R"}
 ];
 
 const mapState = (state) => {
     let pilot;
-
+    
     const currentPilot = selectCurrentPilot(state);
+    
     const session = schema.from(state.entities);
-    const { Pilot } = session;
-    if (Pilot.hasId(currentPilot)) {
+    const {Pilot} = session;
+    
+    if(Pilot.hasId(currentPilot)) {
         pilot = Pilot.withId(currentPilot).ref;
     }
 
     const pilotIsSelected = Boolean(currentPilot);
     const isEditingPilot = selectIsEditingPilot(state);
-    return { pilot, pilotIsSelected, isEditingPilot }
+
+
+    return {pilot, pilotIsSelected, isEditingPilot}
 }
+
 
 const actions = {
     startEditingPilot,
     stopEditingPilot,
     updateEntity,
 }
-export class PilotDetails extends Component {
 
-    onNameChanged = (e) => {
+
+export class PilotDetails  extends Component {
+    onInputChanged = (e) => {
         const newValues = getValueFromEvent(e);
         const {id} = this.props.pilot;
-         this.props.updateEntity("Pilot", id, newValues);
+
+        this.props.updateEntity("Pilot", id, newValues);
     }
+
+    onDropdownChanged = (e, result) => {
+        const {name, value} = result;
+        const newValues = { [name] : value};
+        const {id} = this.props.pilot;
+
+        this.props.updateEntity("Pilot", id, newValues);
+    }
+
+
     render() {
-        const { pilot = {}, pilotIsSelected = false, isEditingPilot = false, ...actions } = this.props;
+        const {pilot={}, pilotIsSelected = false, isEditingPilot = false, ...actions } = this.props;
+
         const {
             name = "",
             rank = "",
@@ -76,21 +99,27 @@ export class PilotDetails extends Component {
             piloting = "",
             mechType = "",
         } = pilot;
+
         const canStartEditing = pilotIsSelected && !isEditingPilot;
         const canStopEditing = pilotIsSelected && isEditingPilot;
 
         return (
             <Form size="large">
-                <Form.Field
-                    name="name"
-                    label="Name"
-                    width={16}
-                    placeholder="Name"
-                    value={name}
-                    disabled={!canStopEditing}
-                    onChange={this.onNameChanged}
-                    control="input"
-                />
+                <FormEditWrapper
+                    singleValue={true}
+                    value={ {name} }
+                    onChange={this.onInputChanged}
+                    passIsEditing={false}
+                >
+                    <Form.Field
+                        name="name"
+                        label="Name"
+                        width={16}
+                        placeholder="Name"
+                        disabled={!canStopEditing}
+                        control="input"
+                    />
+                </FormEditWrapper>
                 <Form.Field
                     name="rank"
                     label="Rank"
@@ -100,17 +129,24 @@ export class PilotDetails extends Component {
                     selection
                     options={RANKS}
                     value={rank}
+                    onChange={this.onDropdownChanged}
                     disabled={!canStopEditing}
                 />
-                <Form.Field
-                    name="age"
-                    width={6}
-                    label="Age"
-                    placeholder="Age"
-                    control="input"
-                    value={age}
-                    disabled={!canStopEditing}
-                />
+                <FormEditWrapper
+                    singleValue={true}
+                    value={ {age} }
+                    onChange={this.onInputChanged}
+                    passIsEditing={false}
+                >
+                    <Form.Field
+                        name="age"
+                        width={6}
+                        label="Age"
+                        placeholder="Age"
+                        control="input"
+                        disabled={!canStopEditing}
+                    />
+                </FormEditWrapper>
                 <Form.Field
                     name="gunnery"
                     label="Gunnery"
@@ -120,6 +156,7 @@ export class PilotDetails extends Component {
                     selection
                     options={SKILL_VALUES}
                     value={gunnery}
+                    onChange={this.onDropdownChanged}
                     disabled={!canStopEditing}
                 />
                 <Form.Field
@@ -131,6 +168,7 @@ export class PilotDetails extends Component {
                     selection
                     options={SKILL_VALUES}
                     value={piloting}
+                    onChange={this.onDropdownChanged}
                     disabled={!canStopEditing}
                 />
                 <Form.Field
@@ -166,4 +204,6 @@ export class PilotDetails extends Component {
         );
     }
 }
+
+
 export default connect(mapState, actions)(PilotDetails);
