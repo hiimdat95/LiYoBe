@@ -5,14 +5,14 @@ import { Table } from "semantic-ui-react";
 import PilotsListHeader from "./PilotsListHeader";
 import PilotsListRow from "./PilotsListRow";
 
-import schema from "app/schema";
+import { getEntitiesSession } from "features/entities/entitySelectors";
 
 
 import { selectPilot } from "../pilotsActions";
 import { selectCurrentPilot } from "../pilotsSelectors";
 
 const mapState = (state) => {
-    const session = schema.from(state.entities);
+    const session = getEntitiesSession(state);
     const { Pilot } = session;
 
     //Extract a list of IDs for each Pilot entry
