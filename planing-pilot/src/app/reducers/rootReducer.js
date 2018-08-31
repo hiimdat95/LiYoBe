@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { reduceReducer } from "common/utils/reducerUtils";
 
 import entitiesReducer from "./entitiesReducer";
+import editingEntitiesReducer from "./editingEntitiesReducer";
 import tabReducer from "features/tabs/tabReducer";
 import unitInfoReducer from "features/unitInfo/unitInfoReducer";
 import pilotsReducer from "features/pilots/pilotsReducer";
@@ -11,6 +12,7 @@ import entityCrudReducer from "features/entities/entityReducer";
 
 const combinedReducer = combineReducers({
     entities: entitiesReducer,
+    editingEntities : editingEntitiesReducer,
     unitInfo: unitInfoReducer,
     pilots: pilotsReducer,
     mechs: mechsReducer,
