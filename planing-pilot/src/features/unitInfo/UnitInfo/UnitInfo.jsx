@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { Form, Dropdown, Segment } from 'semantic-ui-react';
 import { selectUnitInfo } from "../unitInfoSelectors";
 import { updateUnitInfo } from "../unitInfoActions";
-import {getValueFromEvent} from "common/utils/clientUtils";
+import { getValueFromEvent } from "common/utils/clientUtils";
+
+import FormEditWrapper from "common/components/FormEditWrapper";
 
 const FACTIONS = [
     //skip other entries
@@ -22,12 +24,12 @@ const actions = {
 class UnitInfo extends Component {
 
     onAffiliationChanged = (e, result) => {
-        const {name, value} = result;
+        const { name, value } = result;
 
-        const newValues = { [name] : value }
+        const newValues = { [name]: value }
         this.props.updateUnitInfo(newValues);
     }
-    
+
     onNameChanged = (e) => {
         const newValues = getValueFromEvent(e);
         this.props.updateUnitInfo(newValues);
@@ -35,19 +37,24 @@ class UnitInfo extends Component {
 
 
     render() {
-        const { unitInfo } = this.props;
+        const { unitInfo, updateUnitInfo } = this.props;
         const { name, affiliation } = unitInfo;
         return (
             <Segment attached="bottom">
                 <Form size="large">
                     <Form.Field name="name" width={6}>
                         <label>Unit Name</label>
-                        <input
-                           placeholder="Name"
-                           name="name"
-                           value={name}
-                           onChange={this.onNameChanged}
-                       />
+                        <FormEditWrapper
+                            singleValue={true}
+                            value={ {name} }
+                            onChange={updateUnitInfo}
+                            passIsEditing={false}
+                        >
+                            <input
+                                placeholder="Name"
+                                name="name"
+                            />
+                        </FormEditWrapper>
                     </Form.Field>
                     <Form.Field name="affiliation" width={6}>
                         <label>Affiliation</label>
