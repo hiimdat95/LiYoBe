@@ -27,7 +27,6 @@ export function selectPilot(pilotID) {
 export function startEditingPilot() {
     return (dispatch, getState) => {
         const currentPilot = selectCurrentPilot(getState());
-        console.log(currentPilot);
         dispatch(editExistingItem("Pilot", currentPilot));
         dispatch({ type: PILOT_EDIT_START });
     }
@@ -38,6 +37,15 @@ export function stopEditingPilot() {
         const currentPilot = selectCurrentPilot(getState());
         dispatch({ type: PILOT_EDIT_STOP });
         dispatch(applyItemEdits("Pilot", currentPilot));
+        dispatch(stopEditingItem("Pilot", currentPilot));
+    }
+}
+
+export function cancelEditingPilot() {
+    return (dispatch, getState) => {
+        const currentPilot = selectCurrentPilot(getState());
+
+        dispatch({type : PILOT_EDIT_STOP});
         dispatch(stopEditingItem("Pilot", currentPilot));
     }
 }
