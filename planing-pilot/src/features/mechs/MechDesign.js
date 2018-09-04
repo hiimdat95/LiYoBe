@@ -4,5 +4,9 @@ import {Model} from "redux-orm";
     static parse(designData) {
         return this.create(designData);
     }
+
+    toJSON() {
+        return {...this.ref};
+    }
 }
  MechDesign.modelName = "MechDesign"; 
