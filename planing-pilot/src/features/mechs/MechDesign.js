@@ -8,5 +8,9 @@ import {Model} from "redux-orm";
     toJSON() {
         return {...this.ref};
     }
+
+    updateFrom(otherMech) {
+        this.update(otherMech.ref);
+    }
 }
  MechDesign.modelName = "MechDesign"; 
