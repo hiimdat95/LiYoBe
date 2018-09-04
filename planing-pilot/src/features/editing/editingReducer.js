@@ -14,6 +14,7 @@ import {
     EDIT_ITEM_UPDATE,
     EDIT_ITEM_APPLY,
     EDIT_ITEM_STOP,
+    EDIT_ITEM_RESET,
 } from "./editingConstants";
 
 import {getModelByType} from "common/utils/modelUtils";
@@ -108,6 +109,13 @@ export function editItemApply(state, payload) {
     return updateEntitiesState(state, updatedEntities);
 }
 
+export function editItemReset(state, payload) {
+    const stateWithoutItem = editItemStop(state, payload);
+    const stateWithCurrentItem = editItemExisting(stateWithoutItem, payload);
+     return stateWithCurrentItem;
+}
+
+
 
 
 const editingFeatureReducer = createReducer({}, {
@@ -115,6 +123,7 @@ const editingFeatureReducer = createReducer({}, {
     [EDIT_ITEM_UPDATE] : editItemUpdate,
     [EDIT_ITEM_APPLY] : editItemApply,
     [EDIT_ITEM_STOP] : editItemStop,
+    [EDIT_ITEM_RESET] : editItemReset,
 });
 
 export default editingFeatureReducer

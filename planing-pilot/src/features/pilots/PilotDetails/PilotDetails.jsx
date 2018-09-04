@@ -97,12 +97,12 @@ export class PilotDetails  extends Component {
     }
 
     onStartEditingClicked = () => {
-        const {id} = this.props.pilot;
+        // const {id} = this.props.pilot;
         this.props.startEditingPilot();
     }
 
     onStopEditingClicked = () => {
-        const {id} = this.props.pilot;
+        // const {id} = this.props.pilot;
         this.props.stopEditingPilot();
     }
 
