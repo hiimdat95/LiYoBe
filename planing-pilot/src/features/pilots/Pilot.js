@@ -1,8 +1,14 @@
-import {Model, fk} from "redux-orm";
+import {Model, fk, attr} from "redux-orm";
 
 export default class Pilot extends Model {
     static get fields() {
         return {
+            id : attr(),
+            name : attr(),
+            rank : attr(),
+            gunnery : attr(),
+            piloting : attr(),
+            age : attr(),
             mech : fk("Mech"),
         };
     }
@@ -13,7 +19,7 @@ export default class Pilot extends Model {
 
          //Note that in a static class method, 'this' is the
          //class itself, not an instance
-         return this.create(pilotData);
+         return this.upsert(pilotData);
      }
 
      toJSON() {

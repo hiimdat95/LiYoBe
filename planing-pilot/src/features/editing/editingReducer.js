@@ -1,7 +1,7 @@
 
 import {createReducer} from "common/utils/reducerUtils";
 
-import schema from "app/schema";
+import orm from "app/schema";
 
 import {
     createEntity,
@@ -43,7 +43,7 @@ export function copyEntity(sourceEntities, destinationEntities, payload) {
 
 export function updateEditedEntity(sourceEntities, destinationEntities, payload) {
     // Start by reading our "work-in-progress" data
-    const readSession = schema.from(sourceEntities);
+    const readSession = orm.session(sourceEntities);
 
     const {itemType, itemID} = payload;
 
@@ -52,7 +52,7 @@ export function updateEditedEntity(sourceEntities, destinationEntities, payload)
 
 
     // We of course will be updating our "current" relational data
-    let writeSession = schema.from(destinationEntities);
+    let writeSession = orm.session(destinationEntities);
 
     const ModelClass = writeSession[itemType];
 
@@ -63,15 +63,14 @@ export function updateEditedEntity(sourceEntities, destinationEntities, payload)
         if(existingItem.updateFrom) {
             // Each model class should know how to properly update itself and its
             // relations from another model of the same type.  Ask the original model to
-            // update itself based on the "work-in-progress" model, which queues up a
-            // series of immutable add/update/delete actions internally
+            // update itself based on the "work-in-progress" model. Redux-ORM will apply
+            // those changes as we go, and update `session.state` immutably.
             existingItem.updateFrom(model);
         }
     }
 
-    // Immutably apply the changes and generate our new "current" relational data
-    const updatedEntities = writeSession.reduce();
-    return updatedEntities;
+    // Return the updated "current" relational data.
+    return writeSession.state;
 }
 
 
