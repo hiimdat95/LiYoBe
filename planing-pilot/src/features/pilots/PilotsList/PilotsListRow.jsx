@@ -19,21 +19,15 @@ const mapState = (state, ownProps) => {
     if(Pilot.hasId(ownProps.pilotID)){
         const pilotModel = Pilot.withId(ownProps.pilotID);
 
-        //Access the underlying plain JS object using "ref" field
-        //and make a shallow coppy of it
+     
         pilot = {
             ...pilotModel.ref
         };
 
-        //We want to look up pilotModel.mech.mechType. Just in case the
-        //relational fields are null, we'll do a couple safety checks as we go.
-
-        //Look up the associated Mech instance using the foreign key
-        //field that we defined in the Pilot Model classs
+   
         const {mech} = pilotModel;
 
-        //If there actually is an associated mech, include the 
-        //mech type's ID as a field in the data passed to the component
+
         if(mech && mech.type){
             pilot.mechType = mech.type.id;
         }
@@ -57,7 +51,7 @@ const PilotsListRow = ({pilot={}, onPilotClicked=_.noop, selected, deleteEntity}
     } = pilot;
 
     const onDeleteClicked = (e) => {
-        e.stopPrpagation();
+        e.stopPropagation();
         e.preventDefault();
         deleteEntity("Pilot", id);
     }

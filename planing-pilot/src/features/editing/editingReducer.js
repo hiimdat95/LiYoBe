@@ -80,7 +80,6 @@ export function updateEditedEntity(sourceEntities, destinationEntities, payload)
 export function editItemExisting(state, payload) {
     const entities = selectEntities(state);
     const editingEntities = selectEditingEntities(state);
-
     const updatedEditingEntities = copyEntity(entities, editingEntities, payload);
 
     return updateEditingEntitiesState(state, updatedEditingEntities);

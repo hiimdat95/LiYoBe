@@ -27,8 +27,9 @@ export function selectPilot(pilotID) {
 export function startEditingPilot() {
     return (dispatch, getState) => {
         const currentPilot = selectCurrentPilot(getState());
+
         dispatch(editExistingItem("Pilot", currentPilot));
-        dispatch({ type: PILOT_EDIT_START });
+        dispatch({type : PILOT_EDIT_START});
     }
 }
 

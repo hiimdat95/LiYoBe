@@ -92,7 +92,7 @@ export class PilotDetails  extends Component {
         const newValues = getValueFromEvent(e);
         const {id} = this.props.pilot;
 
-        this.props.updateEntity("Pilot", id, newValues);
+        this.props.editItemAttributes("Pilot", id, newValues);
     }
 
     onDropdownChanged = (e, result) => {
@@ -100,7 +100,7 @@ export class PilotDetails  extends Component {
         const newValues = { [name] : value};
         const {id} = this.props.pilot;
 
-        this.props.updateEntity("Pilot", id, newValues);
+        this.props.editItemAttributes("Pilot", id, newValues);
     }
 
     onStartEditingClicked = () => {
