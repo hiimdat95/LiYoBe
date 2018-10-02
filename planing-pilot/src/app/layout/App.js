@@ -10,6 +10,7 @@ import UnitInfo from "features/unitInfo/UnitInfo";
 import Pilots from "features/pilots/Pilots";
 import Mechs from "features/mechs/Mechs";
 import UnitOrganization from "features/unitOrganization/UnitOrganization";
+import ModalManager from "features/modals/ModalManager";
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
     ]
     return (
       <div className="App">
+        <ModalManager />
         <div className="App-header">
           <Header inverted as="h1">Planing hot</Header>
         </div>
