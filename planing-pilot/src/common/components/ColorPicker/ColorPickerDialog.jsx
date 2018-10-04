@@ -6,8 +6,9 @@ import {
 } from "semantic-ui-react";
 import { SketchPicker } from "react-color";
 import { closeModal } from "features/modals/modalActions";
-import { noop } from "common/utils/clientUtils";
-const actions = { closeModal };
+import {colorSelected} from "./colorPickerActions";
+
+const actions = {closeModal, colorSelected};
 export class ColorPickerDialog extends Component {
     constructor(props) {
         super();
@@ -16,7 +17,7 @@ export class ColorPickerDialog extends Component {
         }
     }
     onSelectClicked = () => {
-        this.props.colorSelected(this.state.color);
+        this.props.colorSelected(this.state.color, this.props.onColorPicked);
         this.props.closeModal();
     }
     onSelectedColorChanged = (colorEvent) => {
@@ -47,7 +48,6 @@ export class ColorPickerDialog extends Component {
     }
 }
 ColorPickerDialog.defaultProps = {
-    color: "red",
-    colorSelected: noop
+    color : "red"
 };
-export default connect(null, actions)(ColorPickerDialog); 
+export default connect(null, actions)(ColorPickerDialog);
