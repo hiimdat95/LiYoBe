@@ -18,7 +18,7 @@ import {
 import {
     resetEditedItem,
 } from "features/editing/editingActions";
- 
+
 import {editItemAttributes} from "features/editing/editingActions";
 
 import {getValueFromEvent} from "common/utils/clientUtils";
@@ -69,11 +69,6 @@ const mapState = (state) => {
             pilot = Pilot.withId(currentPilot).ref;
         }
     }
-    
-
-
-
-
     return {pilot, pilotIsSelected, isEditingPilot}
 }
 
@@ -104,22 +99,21 @@ export class PilotDetails  extends Component {
     }
 
     onStartEditingClicked = () => {
-        // const {id} = this.props.pilot;
         this.props.startEditingPilot();
     }
 
     onStopEditingClicked = () => {
-        // const {id} = this.props.pilot;
         this.props.stopEditingPilot();
     }
- 
+
     onResetClicked = () => {
         const {id} = this.props.pilot;
         this.props.resetEditedItem("Pilot", id);
     }
 
+
     render() {
-        const {pilot={}, pilotIsSelected = false, isEditingPilot = false, } = this.props;
+        const {pilot={}, pilotIsSelected = false, isEditingPilot = false } = this.props;
 
         const {
             name = "",
@@ -132,6 +126,7 @@ export class PilotDetails  extends Component {
 
         const canStartEditing = pilotIsSelected && !isEditingPilot;
         const canStopEditing = pilotIsSelected && isEditingPilot;
+
         const buttonWidth = 140;
 
         return (
@@ -151,57 +146,61 @@ export class PilotDetails  extends Component {
                         control="input"
                     />
                 </FormEditWrapper>
-                <Form.Field
-                    name="rank"
-                    label="Rank"
-                    width={16}
-                    control={Dropdown}
-                    fluid
-                    selection
-                    options={RANKS}
-                    value={rank}
-                    onChange={this.onDropdownChanged}
-                    disabled={!canStopEditing}
-                />
-                <FormEditWrapper
-                    singleValue={true}
-                    value={ {age} }
-                    onChange={this.onInputChanged}
-                    passIsEditing={false}
-                >
+                <Form.Group>
                     <Form.Field
-                        name="age"
-                        width={6}
-                        label="Age"
-                        placeholder="Age"
-                        control="input"
+                        name="rank"
+                        label="Rank"
+                        width={10}
+                        control={Dropdown}
+                        fluid
+                        selection
+                        options={RANKS}
+                        value={rank}
+                        onChange={this.onDropdownChanged}
                         disabled={!canStopEditing}
                     />
-                </FormEditWrapper>
-                <Form.Field
-                    name="gunnery"
-                    label="Gunnery"
-                    width={6}
-                    control={Dropdown}
-                    fluid
-                    selection
-                    options={SKILL_VALUES}
-                    value={gunnery}
-                    onChange={this.onDropdownChanged}
-                    disabled={!canStopEditing}
-                />
-                <Form.Field
-                    name="piloting"
-                    label="Piloting"
-                    width={6}
-                    control={Dropdown}
-                    fluid
-                    selection
-                    options={SKILL_VALUES}
-                    value={piloting}
-                    onChange={this.onDropdownChanged}
-                    disabled={!canStopEditing}
-                />
+                    <FormEditWrapper
+                        singleValue={true}
+                        value={ {age} }
+                        onChange={this.onInputChanged}
+                        passIsEditing={false}
+                    >
+                        <Form.Field
+                            name="age"
+                            width={6}
+                            label="Age"
+                            placeholder="Age"
+                            control="input"
+                            disabled={!canStopEditing}
+                        />
+                    </FormEditWrapper>
+                </Form.Group>
+                <Form.Group widths="equal">
+                    <Form.Field
+                        name="gunnery"
+                        label="Gunnery"
+                        control={Dropdown}
+                        fluid
+                        selection
+                        options={SKILL_VALUES}
+                        value={gunnery}
+                        onChange={this.onDropdownChanged}
+                        disabled={!canStopEditing}
+                    />
+                    <Form.Field
+                        name="piloting"
+                        label="Piloting"
+                        control={Dropdown}
+                        fluid
+                        selection
+                        options={SKILL_VALUES}
+                        value={piloting}
+                        onChange={this.onDropdownChanged}
+                        disabled={!canStopEditing}
+                    />
+                </Form.Group>
+
+
                 <Form.Field
                     name="mech"
                     label="Mech"

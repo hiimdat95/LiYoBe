@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Portal from 'react-portal';
+import { Portal } from 'react-portal';
 import ContextMenu from "./ContextMenu";
 import TestContextMenu from "./TestContextMenu";
 import PilotsListItemMenu from "features/pilots/PilotsList/PilotsListItemMenu";
