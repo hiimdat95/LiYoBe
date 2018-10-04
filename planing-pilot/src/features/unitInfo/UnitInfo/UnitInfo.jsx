@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Form, Dropdown, Segment } from 'semantic-ui-react';
 import { selectUnitInfo } from "../unitInfoSelectors";
 import { updateUnitInfo } from "../unitInfoActions";
+import {showColorPicker} from "common/components/ColorPicker/colorPickerActions";
 import { getValueFromEvent } from "common/utils/clientUtils";
 
 import FormEditWrapper from "common/components/FormEditWrapper";
@@ -21,6 +22,7 @@ const mapState = (state) => ({
 
 const actions = {
     updateUnitInfo,
+    showColorPicker,
 };
 class UnitInfo extends Component {
 
@@ -35,7 +37,9 @@ class UnitInfo extends Component {
         const newValues = getValueFromEvent(e);
         this.props.updateUnitInfo(newValues);
     }
-
+    onColorClicked = () => {
+        this.props.showColorPicker(this.props.unitInfo.color);
+    }
 
     render() {
         const { unitInfo, updateUnitInfo } = this.props;
@@ -69,7 +73,10 @@ class UnitInfo extends Component {
                     </Form.Field>
                     <Form.Field name="color">
                         <label>Color</label>
-                        <ColorPickerButton value={color} />
+                        <ColorPickerButton
+                            value={color}
+                            onClick={this.onColorClicked}
+                        />
                     </Form.Field>
                 </Form>
             </Segment>
