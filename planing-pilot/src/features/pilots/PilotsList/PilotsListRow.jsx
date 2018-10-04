@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import {
     Table,
     Button,
@@ -9,37 +9,39 @@ import _ from "lodash";
 
 import { getEntitiesSession } from "features/entities/entitySelectors";
 import { deleteEntity } from "features/entities/entityActions";
+import { showContextMenu } from "features/contextMenus/contextMenuActions";
 
 const mapState = (state, ownProps) => {
     const session = getEntitiesSession(state);
-    const {Pilot} = session;
+    const { Pilot } = session;
 
     let pilot;
-    
-    if(Pilot.hasId(ownProps.pilotID)){
+
+    if (Pilot.hasId(ownProps.pilotID)) {
         const pilotModel = Pilot.withId(ownProps.pilotID);
 
-     
+
         pilot = {
             ...pilotModel.ref
         };
 
-   
-        const {mech} = pilotModel;
+
+        const { mech } = pilotModel;
 
 
-        if(mech && mech.type){
+        if (mech && mech.type) {
             pilot.mechType = mech.type.id;
         }
     }
-    return {pilot};
+    return { pilot };
 }
 
 const actions = {
     deleteEntity,
+    showContextMenu
 };
 
-const PilotsListRow = ({pilot={}, onPilotClicked=_.noop, selected, deleteEntity}) => {
+const PilotsListRow = ({ pilot = {}, onPilotClicked = _.noop, selected, deleteEntity, showContextMenu }) => {
     const {
         id = null,
         name = "",
@@ -58,8 +60,14 @@ const PilotsListRow = ({pilot={}, onPilotClicked=_.noop, selected, deleteEntity}
 
     const onRowClicked = () => onPilotClicked(id);
 
+    const onRowRightClicked = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+         const {pageX, pageY} = e;
+        showContextMenu(pageX, pageY, "PilotsListItemMenu", {text: pilot.name, pilotId : id});
+    }
     return (
-        <Table.Row  onClick={() => onRowClicked(id)} active={selected}>
+        <Table.Row onClick={() => onRowClicked(id)} onContextMenu={onRowRightClicked} active={selected}>
             <Table.Cell>
                 {name}
             </Table.Cell>
@@ -83,7 +91,7 @@ const PilotsListRow = ({pilot={}, onPilotClicked=_.noop, selected, deleteEntity}
                     circular
                     size="tiny"
                     color="red"
-                    icon={<Icon  name="delete" />}
+                    icon={<Icon name="delete" />}
                     onClick={onDeleteClicked}
                 >
                 </Button>

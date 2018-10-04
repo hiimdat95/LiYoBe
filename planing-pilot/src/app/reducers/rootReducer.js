@@ -10,7 +10,8 @@ import mechsReducer from "features/mechs/mechsReducer";
 
 import entityCrudReducer from "features/entities/entityReducer";
 import editingFeatureReducer from "features/editing/editingReducer";
-import modalsReducer from "features/modals/modalReducer.js";
+import modalsReducer from "features/modals/modalReducer";
+import contextMenuReducer from "features/contextMenus/contextMenuReducer";
 
 const combinedReducer = combineReducers({
     entities: entitiesReducer,
@@ -20,6 +21,7 @@ const combinedReducer = combineReducers({
     mechs: mechsReducer,
     tabs: tabReducer,
     modals: modalsReducer,
+    contextMenu : contextMenuReducer
 });
 
 const rootReducer = reduceReducer(

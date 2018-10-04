@@ -11,6 +11,7 @@ import Pilots from "features/pilots/Pilots";
 import Mechs from "features/mechs/Mechs";
 import UnitOrganization from "features/unitOrganization/UnitOrganization";
 import ModalManager from "features/modals/ModalManager";
+import ContextMenuManager from "features/contextMenus/ContextMenuManager";
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
     return (
       <div className="App">
         <ModalManager />
+        <ContextMenuManager />
         <div className="App-header">
           <Header inverted as="h1">Planing hot</Header>
         </div>
