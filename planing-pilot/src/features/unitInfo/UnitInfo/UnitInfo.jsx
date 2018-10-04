@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Form, Dropdown, Segment } from 'semantic-ui-react';
 import { selectUnitInfo } from "../unitInfoSelectors";
-import { updateUnitInfo } from "../unitInfoActions";
-import {showColorPicker} from "common/components/ColorPicker/colorPickerActions";
+import { updateUnitInfo, setUnitColor } from "../unitInfoActions.js";
+import { showColorPicker } from "common/components/ColorPicker/colorPickerActions";
 import { getValueFromEvent } from "common/utils/clientUtils";
 
 import FormEditWrapper from "common/components/FormEditWrapper";
@@ -38,12 +38,13 @@ class UnitInfo extends Component {
         this.props.updateUnitInfo(newValues);
     }
     onColorClicked = () => {
-        this.props.showColorPicker(this.props.unitInfo.color);
+        const onColorPickedAction = setUnitColor();
+        this.props.showColorPicker(this.props.unitInfo.color, onColorPickedAction);
     }
 
     render() {
         const { unitInfo, updateUnitInfo } = this.props;
-        const {name, affiliation, color} = unitInfo;
+        const { name, affiliation, color } = unitInfo;
         return (
             <Segment attached="bottom">
                 <Form size="large">
@@ -51,7 +52,7 @@ class UnitInfo extends Component {
                         <label>Unit Name</label>
                         <FormEditWrapper
                             singleValue={true}
-                            value={ {name} }
+                            value={{ name }}
                             onChange={updateUnitInfo}
                             passIsEditing={false}
                         >
