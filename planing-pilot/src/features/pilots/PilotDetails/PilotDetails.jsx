@@ -1,13 +1,14 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Form, Dropdown, Grid, Button} from "semantic-ui-react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Form, Dropdown, Grid, Button } from "semantic-ui-react";
 
-import {getEntitiesSession} from "features/entities/entitySelectors";
-import {getEditingEntitiesSession} from "features/editing/editingSelectors";
+import { getEntitiesSession } from "features/entities/entitySelectors";
+import { getEditingEntitiesSession } from "features/editing/editingSelectors";
 
 import FormEditWrapper from "common/components/FormEditWrapper";
 
-import {selectCurrentPilot, selectIsEditingPilot} from "../pilotsSelectors";
+import { selectCurrentPilot, selectIsEditingPilot } from "../pilotsSelectors";
+import { PILOT_RANKS } from "../pilotsConstants";
 
 import {
     startEditingPilot,
@@ -19,57 +20,49 @@ import {
     resetEditedItem,
 } from "features/editing/editingActions";
 
-import {editItemAttributes} from "features/editing/editingActions";
+import { editItemAttributes } from "features/editing/editingActions";
 
-import {getValueFromEvent} from "common/utils/clientUtils";
+import { getValueFromEvent } from "common/utils/clientUtils";
 
 
-const RANKS = [
-    {value: "Private", text : "Private"},
-    {value: "Corporal", text : "Corporal"},
-    {value: "Sergeant", text : "Sergeant"},
-    {value: "Lieutenant", text : "Lieutenant"},
-    {value: "Captain", text : "Captain"},
-    {value: "Major", text : "Major"},
-    {value: "Colonel", text : "Colonel"},
-];
+const RANKS = PILOT_RANKS.map(rank => ({value : rank, text : rank}));
 
 const SKILL_VALUES = [
-    {value : 0, text : 0},
-    {value : 1, text : 1},
-    {value : 2, text : 2},
-    {value : 3, text : 3},
-    {value : 4, text : 4},
-    {value : 5, text : 5},
-    {value : 6, text : 6},
-    {value : 7, text : 7},
-    {value : 8, text : 8},
+    { value: 0, text: 0 },
+    { value: 1, text: 1 },
+    { value: 2, text: 2 },
+    { value: 3, text: 3 },
+    { value: 4, text: 4 },
+    { value: 5, text: 5 },
+    { value: 6, text: 6 },
+    { value: 7, text: 7 },
+    { value: 8, text: 8 },
 ]
 
 const MECHS = [
-    {value : "WHM-6R", text : "Warhammer WHM-6R"}
+    { value: "WHM-6R", text: "Warhammer WHM-6R" }
 ];
 
 const mapState = (state) => {
     let pilot;
-    
+
     const currentPilot = selectCurrentPilot(state);
 
     const pilotIsSelected = Boolean(currentPilot);
     const isEditingPilot = selectIsEditingPilot(state);
 
-    if(pilotIsSelected) {
+    if (pilotIsSelected) {
         const session = isEditingPilot ?
             getEditingEntitiesSession(state) :
             getEntitiesSession(state);
 
-        const {Pilot} = session;
+        const { Pilot } = session;
 
-        if(Pilot.hasId(currentPilot)) {
+        if (Pilot.hasId(currentPilot)) {
             pilot = Pilot.withId(currentPilot).ref;
         }
     }
-    return {pilot, pilotIsSelected, isEditingPilot}
+    return { pilot, pilotIsSelected, isEditingPilot }
 }
 
 
@@ -82,18 +75,18 @@ const actions = {
 }
 
 
-export class PilotDetails  extends Component {
+export class PilotDetails extends Component {
     onInputChanged = (e) => {
         const newValues = getValueFromEvent(e);
-        const {id} = this.props.pilot;
+        const { id } = this.props.pilot;
 
         this.props.editItemAttributes("Pilot", id, newValues);
     }
 
     onDropdownChanged = (e, result) => {
-        const {name, value} = result;
-        const newValues = { [name] : value};
-        const {id} = this.props.pilot;
+        const { name, value } = result;
+        const newValues = { [name]: value };
+        const { id } = this.props.pilot;
 
         this.props.editItemAttributes("Pilot", id, newValues);
     }
@@ -107,13 +100,13 @@ export class PilotDetails  extends Component {
     }
 
     onResetClicked = () => {
-        const {id} = this.props.pilot;
+        const { id } = this.props.pilot;
         this.props.resetEditedItem("Pilot", id);
     }
 
 
     render() {
-        const {pilot={}, pilotIsSelected = false, isEditingPilot = false } = this.props;
+        const { pilot = {}, pilotIsSelected = false, isEditingPilot = false } = this.props;
 
         const {
             name = "",
@@ -133,7 +126,7 @@ export class PilotDetails  extends Component {
             <Form size="large">
                 <FormEditWrapper
                     singleValue={true}
-                    value={ {name} }
+                    value={{ name }}
                     onChange={this.onInputChanged}
                     passIsEditing={false}
                 >
@@ -161,7 +154,7 @@ export class PilotDetails  extends Component {
                     />
                     <FormEditWrapper
                         singleValue={true}
-                        value={ {age} }
+                        value={{ age }}
                         onChange={this.onInputChanged}
                         passIsEditing={false}
                     >
@@ -218,7 +211,7 @@ export class PilotDetails  extends Component {
                         disabled={!canStartEditing}
                         type="button"
                         onClick={this.onStartEditingClicked}
-                        style={{width : buttonWidth, marginRight : 10}}
+                        style={{ width: buttonWidth, marginRight: 10 }}
                     >
                         Start Editing
                     </Button>
@@ -226,7 +219,7 @@ export class PilotDetails  extends Component {
                         secondary
                         disabled={!canStopEditing}
                         type="button"
-                        style={{width : buttonWidth}}
+                        style={{ width: buttonWidth }}
                         onClick={this.onStopEditingClicked}
                     >
                         Save Edits
@@ -237,7 +230,7 @@ export class PilotDetails  extends Component {
                         disabled={!canStopEditing}
                         type="button"
                         onClick={this.onResetClicked}
-                        style={{width : buttonWidth, marginRight : 10}}
+                        style={{ width: buttonWidth, marginRight: 10 }}
                     >
                         Reset Values
                     </Button>
@@ -245,7 +238,7 @@ export class PilotDetails  extends Component {
                         negative
                         disabled={!canStopEditing}
                         type="button"
-                        style={{width : buttonWidth}}
+                        style={{ width: buttonWidth }}
                         onClick={this.props.cancelEditingPilot}
                     >
                         Cancel Edits
