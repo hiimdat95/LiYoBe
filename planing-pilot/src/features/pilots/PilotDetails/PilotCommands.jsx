@@ -16,7 +16,7 @@ const actions = { addNewPilot };
 const PilotCommands = (props) => (
     <Button
         primary
-        disable={props.isEditingPilot}
+        disable={props.isEditingPilot ? 1 : 0}
         type="button"
         onClick={props.addNewPilot}
         style={{ width: buttonWidth, marginRight: 10 }}

@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from "react";
 import {
     Segment,
     Grid,
-    Header
-} from 'semantic-ui-react';
-import UnitOrganization from "../UnitOrganization";
+    Header,
+} from "semantic-ui-react";
+
+import UnitOrganizationTree from "../UnitOrganizationTree";
 import UnitInfoForm from "./UnitInfoForm";
 
 class UnitInfo extends Component {
-
     render() {
         return (
-            <Segment >
+            <Segment>
                 <Grid>
                     <Grid.Column width={10}>
-                        <Header as="h3">Unit Table of Orgaization</Header>
+                        <Header as="h3">Unit Table of Organization</Header>
                         <Segment>
-                            <UnitOrganization />
+                            <UnitOrganizationTree />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={6}>
@@ -27,7 +27,8 @@ class UnitInfo extends Component {
                     </Grid.Column>
                 </Grid>
             </Segment>
-        )
+        );
     }
 }
+
 export default UnitInfo;
