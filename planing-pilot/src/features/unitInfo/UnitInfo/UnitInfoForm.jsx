@@ -1,32 +1,31 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
     Form,
     Dropdown,
 } from "semantic-ui-react";
 
-import {selectUnitInfo} from "../unitInfoSelectors";
-import {updateUnitInfo, setUnitColor} from "../unitInfoActions";
-import {showColorPicker} from "common/components/ColorPicker/colorPickerActions";
-import {getValueFromEvent} from "common/utils/clientUtils";
+import { showColorPicker } from "common/components/ColorPicker/colorPickerActions";
+import { getValueFromEvent } from "common/utils/clientUtils";
 
 import FormEditWrapper from "common/components/FormEditWrapper";
 import ColorPickerButton from "common/components/ColorPicker/ColorPickerButton";
+import { getEntitiesSession } from "features/entities/entitySelectors";
+import { selectUnitInfo } from "../unitInfoSelectors";
+import { updateUnitInfo, setUnitColor } from "../unitInfoActions";
 
-const FACTIONS = [
-    {value : "cc", text : "Capellan Confederation"},
-    {value : "dc", text : "Draconis Combine"},
-    {value : "elh", text : "Eridani Light Horse"},
-    {value : "fs", text : "Federated Suns"},
-    {value : "fwl", text : "Free Worlds League"},
-    {value : "hr", text : "Hansen's Roughriders"},
-    {value : "lc", text : "Lyran Commonwealth"},
-    {value : "wd", text : "Wolf's Dragoons"},
-];
 
-const mapState = (state) => ({
-    unitInfo : selectUnitInfo(state),
-});
+const mapState = (state) => {
+    const session = getEntitiesSession(state);
+    const { Faction } = session;
+    const factions = Faction.all().toRefArray();
+    const unitInfo = selectUnitInfo(state);
+    return {
+        factions,
+        unitInfo,
+    };
+};
+
 
 const actions = {
     updateUnitInfo,
@@ -36,9 +35,9 @@ const actions = {
 class UnitInfoForm extends Component {
 
     onAffiliationChanged = (e, result) => {
-        const {name, value} = result;
+        const { name, value } = result;
 
-        const newValues = { [name] : value};
+        const newValues = { [name]: value };
         this.props.updateUnitInfo(newValues);
     }
 
@@ -55,8 +54,15 @@ class UnitInfoForm extends Component {
 
 
     render() {
-        const {unitInfo, updateUnitInfo} = this.props;
-        const {name, affiliation, color} = unitInfo;
+        const { unitInfo, updateUnitInfo, factions } = this.props;
+        const { name, affiliation, color } = unitInfo;
+
+        const displayFactions = factions.map(faction => {
+            return {
+                value : faction.id,
+                text : faction.name
+            };
+        });
 
         return (
             <Form size="large">
@@ -65,7 +71,7 @@ class UnitInfoForm extends Component {
                     <label>Unit Name</label>
                     <FormEditWrapper
                         singleValue={true}
-                        value={ {name} }
+                        value={{ name }}
                         onChange={updateUnitInfo}
                         passIsEditing={false}
                     >
@@ -81,7 +87,7 @@ class UnitInfoForm extends Component {
                         <Dropdown
                             name="affiliation"
                             selection
-                            options={FACTIONS}
+                            options={displayFactions}
                             value={affiliation}
                             onChange={this.onAffiliationChanged}
                         />
