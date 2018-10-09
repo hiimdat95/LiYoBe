@@ -16,7 +16,6 @@ import contextMenuReducer from "features/contextMenus/contextMenuReducer";
 const combinedReducer = combineReducers({
     entities: entitiesReducer,
     editingEntities : editingEntitiesReducer,
-    unitInfo: unitInfoReducer,
     pilots: pilotsReducer,
     mechs: mechsReducer,
     tabs: tabReducer,
@@ -28,6 +27,7 @@ const rootReducer = reduceReducer(
     combinedReducer,
     entityCrudReducer,
     editingFeatureReducer,
+    unitInfoReducer,
 );
 
 export default rootReducer;
