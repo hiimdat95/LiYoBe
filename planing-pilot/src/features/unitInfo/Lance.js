@@ -6,7 +6,7 @@ export default class Lance extends Model {
     static fields = {
         id: attr(),
         name: attr(),
-        pilot: many("Pilot")
+        pilots: many("Pilot")
     };
 
     static parse(lanceData) {
